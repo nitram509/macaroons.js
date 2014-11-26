@@ -1,0 +1,30 @@
+{
+  "name": "macaroons.js",
+  "version": "0.8.0",
+  "description": "Javascript implementation of Macaroons: Cookies with Contextual Caveats for Decentralized Authorization in the Cloud.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nitram509/macaroons.js"
+  },
+  "keywords": [
+    "security",
+    "authentication",
+    "crypto",
+    "cloud",
+    "microservices",
+    "cookies",
+    "caveats",
+    "authorization",
+    "macaroons"
+  ],
+  "author": "Martin W. Kirst",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/nitram509/macaroons.js/issues"
+  },
+  "homepage": "https://github.com/nitram509/macaroons.js"
+}
