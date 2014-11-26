@@ -1,0 +1,2 @@
+
+# macaroons.js
