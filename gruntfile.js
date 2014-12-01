@@ -7,7 +7,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         typescript: {
-          base: {
+          main: {
             src: ['src/main/ts/**/*.ts'],
             dest: 'build/node',
             options: {
@@ -15,6 +15,17 @@ module.exports = function (grunt) {
               target: 'es5',
               basePath: 'src/main/ts/',
               sourceMap: true,
+              declaration: false
+            }
+          },
+          test: {
+            src: ['src/test/ts/**/*.ts'],
+            dest: 'build/node',
+            options: {
+              module: 'commonjs',
+              target: 'es5',
+              basePath: 'src',
+              sourceMap: false,
               declaration: false
             }
           }

@@ -13,6 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export = Macaroon;
+
+import CaveatPacket = require('./CaveatPacket');
 
 class Macaroon {
 
@@ -21,7 +24,7 @@ class Macaroon {
   public signature:string;
   public caveatPackets:CaveatPacket[];
 
-  signatureBytes:Int8Array;
+  private signatureBytes:Int8Array;
 
   constructor(location:string, identifier:string, signature:string) {
     this.identifier = identifier;

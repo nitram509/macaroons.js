@@ -1,0 +1,15 @@
+{
+  "version": "v4",
+  "repo": "borisyankov/DefinitelyTyped",
+  "ref": "master",
+  "path": "src/typings",
+  "bundle": "src/typings/tsd.d.ts",
+  "installed": {
+    "expect.js/expect.js.d.ts": {
+      "commit": "fa7415af31cfa888ed621c0218ce728823158836"
+    },
+    "mocha/mocha.d.ts": {
+      "commit": "fa7415af31cfa888ed621c0218ce728823158836"
+    }
+  }
+}
