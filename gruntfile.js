@@ -40,6 +40,15 @@ module.exports = function (grunt) {
 
         clean: {
           build: ['build']
+        },
+
+        mochaTest: {
+          options: {
+            reporter: 'tap',
+            quiet: false, // Optionally suppress output to standard out (defaults to false)
+            clearRequireCache: false // Optionally clear the require cache before running tests (defaults to false)
+          },
+          src: ['build/node/test/ts/*.js']
         }
 
       });
@@ -48,8 +57,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-typescript');
+  grunt.loadNpmTasks('grunt-mocha-test');
 
   // Default task(s).
   grunt.registerTask('default', ['typescript']);
+  grunt.registerTask('test', ['mochaTest']);
 
 };

@@ -4,7 +4,7 @@
   "description": "Javascript implementation of Macaroons: Cookies with Contextual Caveats for Decentralized Authorization in the Cloud.",
   "main": "index.js",
   "scripts": {
-    "test": "node ./node_modules/mocha/bin/mocha --recursive --reporter tap build/node/test/ts/*.js"
+    "test": "node ./node_modules/grunt-cli/bin/grunt default test"
   },
   "repository": {
     "type": "git",
@@ -31,10 +31,10 @@
     "node": "0.10.x",
     "npm": "1.4.x"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "closurecompiler": "^1.5.1",
+    "expect.js": "~0.1.2",
     "grunt": "~0.4.2",
     "grunt-cli": "~0.1.13",
     "grunt-closurecompiler": "~0.9.9",
@@ -43,9 +43,9 @@
     "grunt-contrib-cssmin": "^0.9.0",
     "grunt-contrib-requirejs": "~0.4.3",
     "grunt-contrib-watch": "^0.4.4",
+    "grunt-mocha-test": "^0.12.4",
     "grunt-typescript": "^0.4.4",
-    "typescript": "^1.3.0",
-    "mocha": "~1.18.2",
-    "expect.js": "~0.1.2"
+    "mocha": "~2.0.1",
+    "typescript": "^1.3.0"
   }
 }
