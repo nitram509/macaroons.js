@@ -20,8 +20,8 @@
 declare var require; // TODO: bad hack to make TSC, possible reason https://github.com/Microsoft/TypeScript/issues/954
 var expect = require('expect.js');
 
-import Macaroon = require('../../main/ts/Macaroon');
 import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
+import Macaroon = require('../../main/ts/Macaroon');
 
 describe('Minimal Test', function () {
 
