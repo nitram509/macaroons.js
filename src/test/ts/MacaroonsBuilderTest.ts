@@ -21,16 +21,23 @@ declare var require; // TODO: bad hack to make TSC, possible reason https://gith
 var expect = require('expect.js');
 
 import Macaroon = require('../../main/ts/Macaroon');
+import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
 
 describe('Minimal Test', function () {
 
+  var location = "http://mybank/";
+  var secret = "this is our super secret key; only we should know it";
+  var identifier = "we used our secret key";
+
   describe('Macaroon Tests', function () {
 
-    it("identifier should be accessible", function () {
+    it("create a Macaroon and verify signature location and identfier", function () {
 
-      var m = new Macaroon("location", "identifier", "signature");
+      var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
 
-      expect(m.identifier).to.be('identifier');
+      expect(m.location).to.be(location);
+      expect(m.identifier).to.be(identifier);
+      expect(m.signature).to.be("e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f");
     });
 
   });
