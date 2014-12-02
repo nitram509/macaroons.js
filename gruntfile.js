@@ -25,7 +25,7 @@ module.exports = function (grunt) {
               module: 'commonjs',
               target: 'es5',
               basePath: 'src',
-              sourceMap: false,
+              sourceMap: true,
               declaration: false
             }
           }
