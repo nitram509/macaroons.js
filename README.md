@@ -31,6 +31,7 @@ Build Status
 [![devDependency Status](https://david-dm.org/nitram509/macaroons.js/dev-status.png)](https://david-dm.org/nitram509/macaroons.js#info=devDependencies)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
+[![NPM](https://nodei.co/npm/macaroons.js.png)](https://nodei.co/npm/macaroons.js/)
 
 Community & Badges
 --------------------
