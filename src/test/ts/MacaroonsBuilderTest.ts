@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-/// <reference path="../../typings/expect.js/expect.js.d.ts" />
-/// <reference path="../../typings/mocha/mocha.d.ts" />
+/// <reference path="../../typings/tsd.d.ts" />
 
 declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
 var expect = require('expect.js');
