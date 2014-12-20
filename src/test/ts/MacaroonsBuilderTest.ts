@@ -38,4 +38,13 @@ describe('MacaroonBuilderTest', function () {
     expect(m.signature).to.be("e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f");
   });
 
+  it("create a Macaroon with static helper function", function () {
+
+    var m = MacaroonsBuilder.create(location, secret, identifier);
+
+    expect(m.location).to.be(location);
+    expect(m.identifier).to.be(identifier);
+    expect(m.signature).to.be("e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f");
+  });
+
 });

@@ -37,6 +37,10 @@ class MacaroonsBuilder {
     return this.macaroon;
   }
 
+  public static create(location:string, secretKey:string, identifier:string):Macaroon {
+    return new MacaroonsBuilder(location, secretKey, identifier).getMacaroon();
+  }
+
   private computeMacaroon_with_keystring(location:string, secretKey:string, identifier:string):Macaroon {
     return this.computeMacaroon(location, this.generate_derived_key(secretKey), identifier);
   }
@@ -51,7 +55,6 @@ class MacaroonsBuilder {
     var MACAROONS_MAGIC_KEY = "macaroons-key-generator";
     return CryptoTools.macaroon_hmac(new Buffer(MACAROONS_MAGIC_KEY, "utf-8"), variableKey);
   }
-
 
 
 }
