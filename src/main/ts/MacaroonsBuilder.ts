@@ -16,7 +16,7 @@
 
 /// <reference path="../../typings/node/node.d.ts" />
 
-declare var require; // TODO: bad hack to make TSC, possible reason https://github.com/Microsoft/TypeScript/issues/954
+declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
 var crypto = require('crypto');
 
 import CaveatPacket = require('./CaveatPacket');
