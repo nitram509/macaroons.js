@@ -22,23 +22,20 @@ var expect = require('expect.js');
 import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
 import Macaroon = require('../../main/ts/Macaroon');
 
-describe('Minimal Test', function () {
+
+describe('MacaroonBuilderTest', function () {
 
   var location = "http://mybank/";
-  var secret = "this is our super secret key; only we should know it";
   var identifier = "we used our secret key";
+  var secret = "this is our super secret key; only we should know it";
 
-  describe('Macaroon Tests', function () {
+  it("create a Macaroon and verify signature location and identfier", function () {
 
-    it("create a Macaroon and verify signature location and identfier", function () {
+    var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
 
-      var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
-
-      expect(m.location).to.be(location);
-      expect(m.identifier).to.be(identifier);
-      expect(m.signature).to.be("e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f");
-    });
-
+    expect(m.location).to.be(location);
+    expect(m.identifier).to.be(identifier);
+    expect(m.signature).to.be("e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f");
   });
 
 });

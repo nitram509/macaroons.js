@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-/// <reference path="../../typings/tsd.d.ts" />
+export = CaveatPacketType;
 
-declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
-var expect = require('expect.js');
-
-import Macaroon = require('../../main/ts/Macaroon');
-
-describe('MacaroonTest', function () {
-
-  it("macaroons can be constructed via given attributes", function () {
-
-    var m = new Macaroon("location", "identifier", "cafebabe");
-
-    expect(m.identifier).to.be('identifier');
-    expect(m.location).to.be('location');
-    expect(m.signature).to.be('cafebabe');
-  });
-
-});
+enum CaveatPacketType {
+  location,
+  identifier,
+  signature,
+  cid,
+  vid,
+  cl
+}

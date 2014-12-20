@@ -17,19 +17,15 @@
 /// <reference path="../../typings/tsd.d.ts" />
 
 declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
-var expect = require('expect.js');
+var crypto = require('crypto');
 
-import Macaroon = require('../../main/ts/Macaroon');
+export = CryptoTools;
+class CryptoTools {
 
-describe('MacaroonTest', function () {
+  public static macaroon_hmac(key:Buffer, message:string):Buffer {
+    var mac = crypto.createHmac('sha256', key);
+    mac.update(message);
+    return mac.digest();
+  }
 
-  it("macaroons can be constructed via given attributes", function () {
-
-    var m = new Macaroon("location", "identifier", "cafebabe");
-
-    expect(m.identifier).to.be('identifier');
-    expect(m.location).to.be('location');
-    expect(m.signature).to.be('cafebabe');
-  });
-
-});
+}

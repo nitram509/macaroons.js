@@ -16,21 +16,27 @@
 export = Macaroon;
 
 import CaveatPacket = require('./CaveatPacket');
+import MacaroonsSerializer = require('./MacaroonsSerializer');
 
 class Macaroon {
 
   public location:string;
   public identifier:string;
   public signature:string;
-  public caveatPackets:CaveatPacket[];
+  public signatureBuffer:Buffer;
 
-  private signatureBytes:Int8Array;
+  public caveatPackets:CaveatPacket[];
 
   constructor(location:string, identifier:string, signature:string) {
     this.identifier = identifier;
     this.location = location;
     this.signature = signature;
+    this.signatureBuffer = new Buffer(signature, 'hex');
   }
+
+  public serialize():string {
+  return MacaroonsSerializer.serialize(this);
+}
 
 //  Macaroon(String location, String identifier, byte[] signature) {
 //  this(location, identifier, new CaveatPacket[0], signature);

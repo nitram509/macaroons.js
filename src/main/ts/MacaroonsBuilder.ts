@@ -14,45 +14,44 @@
  * limitations under the License.
  */
 
-/// <reference path="../../typings/node/node.d.ts" />
-
-declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
-var crypto = require('crypto');
+/// <reference path="../../typings/tsd.d.ts" />
 
 import CaveatPacket = require('./CaveatPacket');
 import Macaroon = require('./Macaroon');
+import CryptoTools = require('./CryptoTools');
 
 export = MacaroonsBuilder;
+
+/**
+ * Used to build and modify Macaroons
+ */
 class MacaroonsBuilder {
 
   private macaroon:Macaroon = null;
 
   constructor(location:string, secretKey:string, identifier:string) {
-    this.macaroon = this.computeMacaroon(location, secretKey, identifier);
-  }
-
-  private computeMacaroon(location:string, secretKey:string, identifier:string):Macaroon {
-    return this.computeMacaroonX(location, this.generate_derived_key(secretKey), identifier);
+    this.macaroon = this.computeMacaroon_with_keystring(location, secretKey, identifier);
   }
 
   public getMacaroon():Macaroon {
     return this.macaroon;
   }
 
-  private generate_derived_key(variableKey:string):Buffer {
-    var MACAROONS_MAGIC_KEY = "macaroons-key-generator";
-    return this.macaroon_hmac(new Buffer(MACAROONS_MAGIC_KEY, "utf-8"), variableKey);
+  private computeMacaroon_with_keystring(location:string, secretKey:string, identifier:string):Macaroon {
+    return this.computeMacaroon(location, this.generate_derived_key(secretKey), identifier);
   }
 
-  private macaroon_hmac(key:Buffer, message:string):Buffer {
-    var mac = crypto.createHmac('sha256', key);
-    mac.update(message);
-    return mac.digest();
-  }
-
-  private computeMacaroonX(location:string, secretKey:Buffer, identifier:string):Macaroon {
-    var hmac:Buffer = this.macaroon_hmac(secretKey, identifier);
+  private computeMacaroon(location:string, secretKey:Buffer, identifier:string):Macaroon {
+    var hmac:Buffer = CryptoTools.macaroon_hmac(secretKey, identifier);
     var signature:string = hmac.toString('hex');
     return new Macaroon(location, identifier, signature);
   }
+
+  private generate_derived_key(variableKey:string):Buffer {
+    var MACAROONS_MAGIC_KEY = "macaroons-key-generator";
+    return CryptoTools.macaroon_hmac(new Buffer(MACAROONS_MAGIC_KEY, "utf-8"), variableKey);
+  }
+
+
+
 }
