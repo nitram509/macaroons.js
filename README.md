@@ -26,10 +26,11 @@ Build Status
 
 [![Build Status](https://travis-ci.org/nitram509/jmacaroons.svg?branch=master)](https://travis-ci.org/nitram509/macaroons.js)
 [![Build Status](https://drone.io/github.com/nitram509/macaroons.js/status.png)](https://drone.io/github.com/nitram509/macaroons.js/latest)
+[![devDependency Status](https://david-dm.org/nitram509/macaroons.js/dev-status.png)](https://david-dm.org/nitram509/macaroons.js#info=devDependencies)
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 Community & Badges
 --------------------
 
-[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 If you like this project, endorse please: [![endorse](https://api.coderwall.com/nitram509/endorsecount.png)](https://coderwall.com/nitram509)
