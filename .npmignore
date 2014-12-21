@@ -1,0 +1,8 @@
+.travis.yml
+Gruntfile.js
+tsd.json
+
+*.iml
+.idea
+build
+npm-debug.log

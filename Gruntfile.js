@@ -14,7 +14,7 @@ module.exports = function (grunt) {
               module: 'commonjs',
               target: 'es5',
               basePath: 'src/main/ts/',
-              sourceMap: true,
+              sourceMap: false,
               declaration: false
             }
           },
@@ -26,7 +26,7 @@ module.exports = function (grunt) {
               target: 'es5',
               basePath: 'src',
               sourceMap: true,
-              declaration: false
+              declaration: true
             }
           }
         },
@@ -39,7 +39,16 @@ module.exports = function (grunt) {
         },
 
         clean: {
-          build: ['build']
+          build: ['build', 'lib/*']
+        },
+
+        copy: {
+          main: {
+            files: [
+              // includes files within path
+              {expand: true, cwd: 'build/node/', src: ['*.js'], dest: 'lib/', filter: 'isFile'}
+            ]
+          }
         },
 
         mochaTest: {
@@ -56,11 +65,12 @@ module.exports = function (grunt) {
   // Register tasks
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-typescript');
   grunt.loadNpmTasks('grunt-mocha-test');
 
   // Default task(s).
-  grunt.registerTask('default', ['typescript']);
-  grunt.registerTask('test', ['mochaTest']);
+  grunt.registerTask('default', ['typescript:main', 'copy']);
+  grunt.registerTask('test', ['typescript:test', 'mochaTest']);
 
 };
