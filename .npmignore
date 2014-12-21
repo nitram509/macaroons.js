@@ -6,3 +6,5 @@ tsd.json
 .idea
 build
 npm-debug.log
+src/test
+
