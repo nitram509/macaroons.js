@@ -19,22 +19,12 @@
 import Macaroon = require('./Macaroon');
 import CaveatPacket = require('./CaveatPacket');
 import CaveatPacketType = require('./CaveatPacketType');
+import MacaroonsContants = require('./MacaroonsContants');
 
 export = MacaroonsSerializer;
 class MacaroonsSerializer {
 
   private static HEX = [0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66];
-
-  private static IDENTIFIER_CHARSET:string = "utf8";
-
-  private static PACKET_PREFIX_LENGTH:number = 4;
-
-  private static LINE_SEPARATOR:number = '\n'.charCodeAt(0);
-  private static LINE_SEPARATOR_LEN:number = 1;
-
-  private static KEY_VALUE_SEPARATOR:number = ' '.charCodeAt(0);
-  private static KEY_VALUE_SEPARATOR_LEN:number = 1;
-
 
   public static serialize(macaroon:Macaroon):string {
     var packets:Array<Buffer> = [];
@@ -49,36 +39,36 @@ class MacaroonsSerializer {
   }
 
   private static serialize_packet(type:CaveatPacketType, data:string):Buffer {
-    return MacaroonsSerializer.serialize_packet_buf(type, new Buffer(data, this.IDENTIFIER_CHARSET));
+    return MacaroonsSerializer.serialize_packet_buf(type, new Buffer(data, MacaroonsContants.IDENTIFIER_CHARSET));
   }
 
   private static serialize_packet_buf(type:CaveatPacketType, data:Buffer):Buffer {
     var typname = CaveatPacketType[type];
-    var packet_len = MacaroonsSerializer.PACKET_PREFIX_LENGTH + typname.length + MacaroonsSerializer.KEY_VALUE_SEPARATOR_LEN + data.length + MacaroonsSerializer.LINE_SEPARATOR_LEN;
+    var packet_len = MacaroonsContants.PACKET_PREFIX_LENGTH + typname.length + MacaroonsContants.KEY_VALUE_SEPARATOR_LEN + data.length + MacaroonsContants.LINE_SEPARATOR_LEN;
     var packet = new Buffer(packet_len);
     packet.fill(0);
     var offset = 0;
 
     MacaroonsSerializer.packet_header(packet_len).copy(packet, 0, 0);
-    offset += MacaroonsSerializer.PACKET_PREFIX_LENGTH;
+    offset += MacaroonsContants.PACKET_PREFIX_LENGTH;
 
     new Buffer(typname, 'ascii').copy(packet, offset, 0);
     offset += typname.length;
 
-    packet[offset] = MacaroonsSerializer.KEY_VALUE_SEPARATOR;
-    offset += MacaroonsSerializer.KEY_VALUE_SEPARATOR_LEN;
+    packet[offset] = MacaroonsContants.KEY_VALUE_SEPARATOR;
+    offset += MacaroonsContants.KEY_VALUE_SEPARATOR_LEN;
 
     data.copy(packet, offset, 0);
     offset += data.length;
 
-    packet[offset] = MacaroonsSerializer.LINE_SEPARATOR;
+    packet[offset] = MacaroonsContants.LINE_SEPARATOR;
     return packet;
   }
 
   private static packet_header(size:number):Buffer {
     // assert.ok(size < 65536, "size < 65536");
     var size = (size & 0xffff);
-    var packet = new Buffer(MacaroonsSerializer.PACKET_PREFIX_LENGTH);
+    var packet = new Buffer(MacaroonsContants.PACKET_PREFIX_LENGTH);
     packet[0] = MacaroonsSerializer.HEX[(size >> 12) & 15];
     packet[1] = MacaroonsSerializer.HEX[(size >> 8) & 15];
     packet[2] = MacaroonsSerializer.HEX[(size >> 4) & 15];

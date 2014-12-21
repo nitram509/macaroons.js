@@ -13,8 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import CaveatPacketType = require('./CaveatPacketType');
+import MacaroonsContants = require('./MacaroonsContants');
+
 export = CaveatPacket;
 class CaveatPacket {
 
+  public type:CaveatPacketType;
+  public rawValue:Buffer;
 
+  private valueAsText:string;
+
+  constructor(type:CaveatPacketType, valueAsText:string);
+  constructor(type:CaveatPacketType, valueAsBuffer:Buffer);
+  constructor(type:CaveatPacketType, value:any) {
+    //assert type != null;
+    //assert rawValue != null;
+    this.type = type;
+    if (typeof value === 'string') {
+      this.rawValue = new Buffer(value, MacaroonsContants.IDENTIFIER_CHARSET);
+    } else if (typeof value === 'Buffer') {
+      //assert type != Type.vid : "VIDs should be used as raw bytes, because otherwise UTF8 string encoder would break it";
+      this.rawValue = value;
+    } else {
+      throw "Unknown type for second parameter 'value'. Expected 'string' or 'Buffer', but was " + (typeof value);
+    }
+  }
+
+  public getRawValue():Buffer {
+    return this.rawValue;
+  }
+
+  public getValueAsText():string {
+    if (this.type == CaveatPacketType.vid) {
+      if (this.valueAsText == null) {
+        //this.valueAsText = Base64.encodeUrlSafeToString(this.rawValue); // TODO implement!
+      }
+      return this.valueAsText;
+    }
+    return this.rawValue.toString(MacaroonsContants.IDENTIFIER_CHARSET);
+  }
 }

@@ -16,8 +16,20 @@
 export = Macaroon;
 
 import CaveatPacket = require('./CaveatPacket');
+import CaveatPacketType = require('./CaveatPacketType');
 import MacaroonsSerializer = require('./MacaroonsSerializer');
+import MacaroonsContants = require('./MacaroonsContants');
 
+/**
+ * <p>
+ * Macaroons: Cookies with Contextual Caveats for Decentralized Authorization in the Cloud
+ * </p>
+ * This is an immutable and serializable object.
+ * Use {@link MacaroonsBuilder} to modify it.
+ * Use {@link MacaroonsVerifier} to verify it.
+ *
+ * @see <a href="http://research.google.com/pubs/pub41892.html">http://research.google.com/pubs/pub41892.html</a>
+ */
 class Macaroon {
 
   public location:string;
@@ -35,19 +47,27 @@ class Macaroon {
   }
 
   public serialize():string {
-  return MacaroonsSerializer.serialize(this);
-}
+    return MacaroonsSerializer.serialize(this);
+  }
 
-//  Macaroon(String location, String identifier, byte[] signature) {
-//  this(location, identifier, new CaveatPacket[0], signature);
-//}
-//
-//Macaroon(String location, String identifier, CaveatPacket[] caveats, byte[] signature) {
-//  this.location = location;
-//  this.identifier = identifier;
-//  this.caveatPackets = caveats;
-//  this.signature = bin2hex(signature);
-//  this.signatureBytes = signature;
-//}
+  public inspect():string {
+    return this.createKeyValuePacket(CaveatPacketType.location, this.location)
+        + this.createKeyValuePacket(CaveatPacketType.identifier, this.identifier)
+        + this.createCaveatsPackets(this.caveatPackets)
+        + this.createKeyValuePacket(CaveatPacketType.signature, this.signature);
+  }
 
+  private createKeyValuePacket(type:CaveatPacketType, value:string):string {
+    return value != null ? CaveatPacketType[type] + MacaroonsContants.KEY_VALUE_SEPARATOR_STR + value + MacaroonsContants.LINE_SEPARATOR_STR : "";
+  }
+
+  private createCaveatsPackets(caveats:Array<CaveatPacket>):string {
+    if (caveats == null) return "";
+    var text = "";
+    for (var i = 0; i < caveats.length; i++) {
+      var packet:CaveatPacket = caveats[i];
+      text += this.createKeyValuePacket(packet.type, packet.getValueAsText());
+    }
+    return text;
+  }
 }

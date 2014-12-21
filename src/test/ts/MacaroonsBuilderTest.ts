@@ -47,4 +47,24 @@ describe('MacaroonBuilderTest', function () {
     expect(m.signature).to.be("e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f");
   });
 
+  it("create a Macaroon and inspect", function () {
+
+    var inspect = MacaroonsBuilder.create(location, secret, identifier).inspect();
+
+    expect(inspect).to.be(
+        "location http://mybank/\n" +
+        "identifier we used our secret key\n" +
+        "signature e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f\n"
+    );
+  });
+
+  it("different locations doesnt change the signatures", function () {
+
+    var m1 = new MacaroonsBuilder("http://location_ONE", secret, identifier).getMacaroon();
+    var m2 = new MacaroonsBuilder("http://location_TWO", secret, identifier).getMacaroon();
+
+    expect(m1.signature).to.be(m2.signature);
+  });
+
+
 });

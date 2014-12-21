@@ -13,9 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export = MacaroonsContants;
+class MacaroonsContants {
+  public static IDENTIFIER_CHARSET:string = "utf8";
 
-module.exports = {
-  "MacaroonsBuilder" : require('./lib/MacaroonsBuilder'),
-  "MacaroonsSerializer" : require('./lib/MacaroonsSerializer'),
-  "Macaroon" : require('./lib/Macaroon')
-};
+  public static PACKET_PREFIX_LENGTH:number = 4;
+
+  public static LINE_SEPARATOR_STR:string = '\n';
+  public static LINE_SEPARATOR:number = MacaroonsContants.LINE_SEPARATOR_STR.charCodeAt(0);
+  public static LINE_SEPARATOR_LEN:number = 1;
+
+  public static KEY_VALUE_SEPARATOR_STR:string = ' ';
+  public static KEY_VALUE_SEPARATOR:number = MacaroonsContants.KEY_VALUE_SEPARATOR_STR.charCodeAt(0);
+  public static KEY_VALUE_SEPARATOR_LEN:number = 1;
+}
