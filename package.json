@@ -51,8 +51,7 @@
     "typescript": "^1.3.0"
   },
   "directories": {
-    "lib": "./lib",
-    "example": "./src/examples"
+    "lib": "./lib"
   },
   "main": "index.js"
 }
