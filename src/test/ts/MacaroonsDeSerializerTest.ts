@@ -20,16 +20,26 @@ declare var require; // TODO: bad hack to make TSC compile, possible reason http
 var expect = require('expect.js');
 
 import Macaroon = require('../../main/ts/Macaroon');
+import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
+import MacaroonsSerializer = require('../../main/ts/MacaroonsSerializer');
+import MacaroonsDeSerializer = require('../../main/ts/MacaroonsDeSerializer');
 
-describe('MacaroonTest', function () {
+describe('MacaroonDeSerializerTest', function () {
 
-  it("macaroons can be constructed via given attributes", function () {
+  var location = "http://mybank/";
+  var secret = "this is our super secret key; only we should know it";
+  var identifier = "we used our secret key";
 
-    var m = new Macaroon("location", "identifier", new Buffer("cafebabe", 'hex'));
+  it("a macaroon can be de-serialized", function () {
 
-    expect(m.identifier).to.be('identifier');
-    expect(m.location).to.be('location');
-    expect(m.signature).to.be('cafebabe');
+    var m:Macaroon = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
+    var serialized = m.serialize();
+
+    var deserialized:Macaroon = MacaroonsDeSerializer.deserialize(serialized);
+
+    expect(m.identifier).to.be(deserialized.identifier);
+    expect(m.location).to.be(deserialized.location);
+    expect(m.signature).to.be(deserialized.signature);
   });
 
 });

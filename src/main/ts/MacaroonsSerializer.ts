@@ -19,7 +19,7 @@
 import Macaroon = require('./Macaroon');
 import CaveatPacket = require('./CaveatPacket');
 import CaveatPacketType = require('./CaveatPacketType');
-import MacaroonsContants = require('./MacaroonsContants');
+import MacaroonsContants = require('./MacaroonsConstants');
 
 export = MacaroonsSerializer;
 class MacaroonsSerializer {

@@ -18,7 +18,7 @@ export = Macaroon;
 import CaveatPacket = require('./CaveatPacket');
 import CaveatPacketType = require('./CaveatPacketType');
 import MacaroonsSerializer = require('./MacaroonsSerializer');
-import MacaroonsContants = require('./MacaroonsContants');
+import MacaroonsContants = require('./MacaroonsConstants');
 
 /**
  * <p>
@@ -39,11 +39,12 @@ class Macaroon {
 
   public caveatPackets:CaveatPacket[];
 
-  constructor(location:string, identifier:string, signature:string) {
+  constructor(location:string, identifier:string, signature:Buffer, caveats?:CaveatPacket[]) {
     this.identifier = identifier;
     this.location = location;
-    this.signature = signature;
-    this.signatureBuffer = new Buffer(signature, 'hex');
+    this.signature = signature ? signature.toString('hex') : undefined;
+    this.signatureBuffer = signature;
+    this.caveatPackets = caveats;
   }
 
   public serialize():string {

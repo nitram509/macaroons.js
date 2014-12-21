@@ -17,5 +17,6 @@
 module.exports = {
   "MacaroonsBuilder" : require('./lib/MacaroonsBuilder'),
   "MacaroonsSerializer" : require('./lib/MacaroonsSerializer'),
+  "MacaroonsDeSerializer" : require('./lib/MacaroonsDeSerializer'),
   "Macaroon" : require('./lib/Macaroon')
 };

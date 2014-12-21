@@ -44,7 +44,7 @@ Creating Your First Macaroon
 
 Lets create a simple macaroon
 ````Javascript
-var MacaroonsBuilder = require('MacaroonsBuilder');
+var MacaroonsBuilder = require('macaroons.js').MacaroonsBuilder;
 
 var location = "http://www.example.org";
 var secretKey = "this is our super secret key; only we should know it";
@@ -76,4 +76,17 @@ var serialized = macaroon.serialize();
 sys.puts("Serialized: " + serialized);
 
 // > Serialized: MDAyNGxvY2F0aW9uIGh0dHA6Ly93d3cuZXhhbXBsZS5vcmcKMDAyNmlkZW50aWZpZXIgd2UgdXNlZCBvdXIgc2VjcmV0IGtleQowMDJmc2lnbmF0dXJlIOPZ4CkIUmxMADmuFRFBFdl_3Wi_K6N5s0Kq8PYX0FUvCg
+````
+
+
+De-Serializing
+----------------------------------
+
+````Javascript
+var macaroon = MacaroonsBuilder.deserialize(serialized);
+sys.puts(macaroon.inspect());
+
+// > location http://www.example.org
+// > identifier we used our secret key
+// > signature e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f
 ````

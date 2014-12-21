@@ -15,7 +15,7 @@
  */
 
 import CaveatPacketType = require('./CaveatPacketType');
-import MacaroonsContants = require('./MacaroonsContants');
+import MacaroonsContants = require('./MacaroonsConstants');
 
 export = CaveatPacket;
 class CaveatPacket {
