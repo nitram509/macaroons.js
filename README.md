@@ -107,3 +107,91 @@ var valid = verifier.isValid(secret);
 
 // > true
 ````
+
+
+Adding Caveats
+-----------------------------------
+
+When creating a new macaroon, you can add a caveat to our macaroon that
+restricts it to just the account number 3735928559.
+````Javascript
+var location = "http://www.example.org";
+var secretKey = "this is our super secret key; only we should know it";
+var identifier = "we used our secret key";
+var macaroon = new MacaroonsBuilder(location, secretKey, identifier)
+    .add_first_party_caveat("account = 3735928559")
+    .getMacaroon();
+````
+
+Because macaroon objects are immutable, they have to be modified
+via MacaroonsBuilder. Thus, a new macaroon object will be created.
+````Javascript
+var macaroon = MacaroonsBuilder.modify(macaroon)
+    .add_first_party_caveat("account = 3735928559")
+    .getMacaroon();
+sys.puts(macaroon.inspect());
+
+// > location http://www.example.org
+// > identifier we used our secret key
+// > cid account = 3735928559
+// > signature 1efe4763f290dbce0c1d08477367e11f4eee456a64933cf662d79772dbb82128
+````
+
+
+Verifying Macaroons With Caveats
+--------------------------------
+
+The verifier should say that this macaroon is unauthorized because
+the verifier cannot prove that the caveat (account = 3735928559) is satisfied.
+We can see that it fails just as we would expect.
+````Javascript
+var location = "http://www.example.org";
+var secretKey = "this is our super secret key; only we should know it";
+var identifier = "we used our secret key";
+var macaroon = new MacaroonsBuilder(location, secretKey, identifier)
+    .add_first_party_caveat("account = 3735928559")
+    .getMacaroon();
+var verifier = new MacaroonsVerifier(macaroon);
+verifier.isValid(secretKey);
+// > False
+````
+
+Caveats like these are called "exact caveats" because there is exactly one way
+to satisfy them.  Either the account number is 3735928559, or it isn't.  At
+verification time, the verifier will check each caveat in the macaroon against
+the list of satisfied caveats provided to "satisfyExcact()".  When it finds a
+match, it knows that the caveat holds and it can move onto the next caveat in
+the macaroon.
+````Javascript
+verifier.satisfyExcact("account = 3735928559");
+verifier.isValid(secretKey);
+// > True
+````
+
+The verifier can be made more general, and be "future-proofed",
+so that it will still function correctly even if somehow the authorization
+policy changes; for example, by adding the three following facts,
+the verifier will continue to work even if someone decides to
+self-attenuate itself macaroons to be only usable from IP address and browser:
+````Javascript
+verifier.satisfyExcact("IP = 127.0.0.1')");
+verifier.satisfyExcact("browser = Chrome')");
+verifier.isValid(secretKey);
+// > True
+````
+
+There is also a more general way to check caveats, via callbacks.
+When providing such a callback to the verifier,
+it is able to check if the caveat satisfies special constrains.
+````Javascript
+var macaroon = new MacaroonsBuilder(location, secretKey, identifier)
+    .add_first_party_caveat("time < 2042-01-01T00:00")
+    .getMacaroon();
+var verifier = new MacaroonsVerifier(macaroon);
+verifier.isValid(secretKey);
+// > False
+
+verifier.satisfyGeneral(new TimestampCaveatVerifier());
+verifier.isValid(secretKey);
+// > True
+````

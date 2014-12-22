@@ -14,7 +14,7 @@ module.exports = function (grunt) {
               module: 'commonjs',
               target: 'es5',
               basePath: 'src/main/ts/',
-              sourceMap: false,
+              sourceMap: true,
               declaration: false
             }
           },
