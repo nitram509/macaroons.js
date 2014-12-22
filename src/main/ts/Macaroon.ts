@@ -37,14 +37,14 @@ class Macaroon {
   public signature:string;
   public signatureBuffer:Buffer;
 
-  public caveatPackets:CaveatPacket[];
+  public caveatPackets:CaveatPacket[] = [];
 
   constructor(location:string, identifier:string, signature:Buffer, caveats?:CaveatPacket[]) {
     this.identifier = identifier;
     this.location = location;
     this.signature = signature ? signature.toString('hex') : undefined;
     this.signatureBuffer = signature;
-    this.caveatPackets = caveats;
+    this.caveatPackets = caveats ? caveats : [];
   }
 
   public serialize():string {

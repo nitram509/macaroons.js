@@ -17,7 +17,9 @@
 /// <reference path="../../typings/tsd.d.ts" />
 
 import CaveatPacket = require('./CaveatPacket');
+import CaveatPacketType = require('./CaveatPacketType');
 import Macaroon = require('./Macaroon');
+import MacaroonsConstants = require('./MacaroonsConstants');
 import MacaroonsDeSerializer = require('./MacaroonsDeSerializer');
 import CryptoTools = require('./CryptoTools');
 
@@ -37,10 +39,30 @@ class MacaroonsBuilder {
    * @param secretKey  secretKey this secret will be enhanced, in case it's shorter than {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH}
    * @param identifier identifier
    */
-  constructor(location:string, secretKey:string, identifier:string) {
-    this.macaroon = this.computeMacaroon_with_keystring(location, secretKey, identifier);
+  constructor(location:string, secretKey:string, identifier:string);
+  /**
+   * @param macaroon macaroon to modify
+   */
+  constructor(macaroon:Macaroon);
+  constructor(arg1:any, secretKey?:string, identifier?:string) {
+    if (typeof arg1 === 'string') {
+      this.macaroon = this.computeMacaroon_with_keystring(arg1, secretKey, identifier);
+    } else {
+      this.macaroon = arg1;
+    }
   }
 
+  /**
+   * @param macaroon macaroon
+   * @return {@link MacaroonsBuilder}
+   */
+  public static modify(macaroon:Macaroon):MacaroonsBuilder {
+    return new MacaroonsBuilder(macaroon);
+  }
+
+  /**
+   * @return a {@link Macaroon}
+   */
   public getMacaroon():Macaroon {
     return this.macaroon;
   }
@@ -64,13 +86,32 @@ class MacaroonsBuilder {
     return MacaroonsDeSerializer.deserialize(serializedMacaroon);
   }
 
+  /**
+   * @param caveat caveat
+   * @return this {@link MacaroonsBuilder}
+   * @throws exception if there are more than {@link MacaroonsConstants.MACAROON_MAX_CAVEATS} caveats.
+   */
+  public add_first_party_caveat(caveat:string):MacaroonsBuilder {
+    if (caveat != null) {
+      var caveatBuffer:Buffer = new Buffer(caveat, MacaroonsConstants.IDENTIFIER_CHARSET);
+      //assert caveatBytes.length < MacaroonsConstants.MACAROON_MAX_STRLEN;
+      if (this.macaroon.caveatPackets.length + 1 > MacaroonsConstants.MACAROON_MAX_CAVEATS) {
+        throw "Too many caveats. There are max. " + MacaroonsConstants.MACAROON_MAX_CAVEATS + " caveats allowed.";
+      }
+      var signature = CryptoTools.macaroon_hmac(this.macaroon.signatureBuffer, caveatBuffer);
+      this.macaroon.caveatPackets.push(new CaveatPacket(CaveatPacketType.cid, caveatBuffer));
+      this.macaroon = new Macaroon(this.macaroon.location, this.macaroon.identifier, signature, this.macaroon.caveatPackets);
+    }
+    return this;
+  }
+
   private computeMacaroon_with_keystring(location:string, secretKey:string, identifier:string):Macaroon {
     return this.computeMacaroon(location, CryptoTools.generate_derived_key(secretKey), identifier);
   }
 
   private computeMacaroon(location:string, secretKey:Buffer, identifier:string):Macaroon {
-    var hmac:Buffer = CryptoTools.macaroon_hmac(secretKey, identifier);
-    return new Macaroon(location, identifier, hmac);
+    var signature:Buffer = CryptoTools.macaroon_hmac(secretKey, identifier);
+    return new Macaroon(location, identifier, signature);
   }
 
 }

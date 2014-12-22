@@ -28,16 +28,16 @@ class CaveatPacket {
   constructor(type:CaveatPacketType, valueAsText:string);
   constructor(type:CaveatPacketType, valueAsBuffer:Buffer);
   constructor(type:CaveatPacketType, value:any) {
+    if (typeof value === 'undefinded') throw "Missing second parameter 'value' from type 'string' or 'Buffer'";
+
     //assert type != null;
     //assert rawValue != null;
     this.type = type;
     if (typeof value === 'string') {
       this.rawValue = new Buffer(value, MacaroonsContants.IDENTIFIER_CHARSET);
-    } else if (typeof value === 'Buffer') {
+    } else {
       //assert type != Type.vid : "VIDs should be used as raw bytes, because otherwise UTF8 string encoder would break it";
       this.rawValue = value;
-    } else {
-      throw "Unknown type for second parameter 'value'. Expected 'string' or 'Buffer', but was " + (typeof value);
     }
   }
 
