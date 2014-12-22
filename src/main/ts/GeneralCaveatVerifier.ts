@@ -20,4 +20,6 @@ interface GeneralCaveatVerifier {
    * @return True, if this caveat is satisfies the applications requirements. False otherwise.
    */
   verifyCaveat(caveat:string):boolean;
+
+  // TODO : this interface should be a simple callback function -> which is more JS like ;-)
 }
