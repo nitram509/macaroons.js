@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-/// <reference path="../../typings/tsd.d.ts" />
-
 import Macaroon = require('./Macaroon');
 import CaveatPacket = require('./CaveatPacket');
 import CaveatPacketType = require('./CaveatPacketType');

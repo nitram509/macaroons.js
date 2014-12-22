@@ -105,5 +105,5 @@ var verifier = new MacaroonsVerifier(macaroon);
 var secret = "this is our super secret key; only we should know it";
 var valid = verifier.isValid(secret);
 
-// > True
+// > true
 ````
