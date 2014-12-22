@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-module.exports = {
-  "MacaroonsBuilder" : require('./lib/MacaroonsBuilder'),
-  "MacaroonsVerifier" : require('./lib/MacaroonsVerifier'),
-  "MacaroonsSerializer" : require('./lib/MacaroonsSerializer'),
-  "MacaroonsDeSerializer" : require('./lib/MacaroonsDeSerializer'),
-  "Macaroon" : require('./lib/Macaroon')
-};
+export = GeneralCaveatVerifier;
+interface GeneralCaveatVerifier {
+  /**
+   * @param caveat caveat
+   * @return True, if this caveat is satisfies the applications requirements. False otherwise.
+   */
+  verifyCaveat(caveat:string):boolean;
+}

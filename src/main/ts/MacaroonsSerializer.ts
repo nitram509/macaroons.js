@@ -24,6 +24,8 @@ import MacaroonsContants = require('./MacaroonsConstants');
 export = MacaroonsSerializer;
 class MacaroonsSerializer {
 
+  "use strict";
+
   private static HEX = [0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66];
 
   public static serialize(macaroon:Macaroon):string {
@@ -83,7 +85,7 @@ class MacaroonsSerializer {
     }
     var result = new Buffer(size);
     size = 0;
-    for (var i = 0; i < bufs.length; i++) {
+    for (i = 0; i < bufs.length; i++) {
       bufs[i].copy(result, size, 0);
       size += bufs[i].length;
     }

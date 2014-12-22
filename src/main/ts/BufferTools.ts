@@ -14,10 +14,20 @@
  * limitations under the License.
  */
 
-module.exports = {
-  "MacaroonsBuilder" : require('./lib/MacaroonsBuilder'),
-  "MacaroonsVerifier" : require('./lib/MacaroonsVerifier'),
-  "MacaroonsSerializer" : require('./lib/MacaroonsSerializer'),
-  "MacaroonsDeSerializer" : require('./lib/MacaroonsDeSerializer'),
-  "Macaroon" : require('./lib/Macaroon')
-};
+/// <reference path="../../typings/tsd.d.ts" />
+
+export = BufferTools;
+class BufferTools {
+
+  public static equals(a:Buffer, b:Buffer):boolean {
+    if (!Buffer.isBuffer(a)) return undefined;
+    if (!Buffer.isBuffer(b)) return undefined;
+    if (typeof a['equals'] === 'function') return a['equals'](b);
+    if (a.length !== b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
+  }
+
+}

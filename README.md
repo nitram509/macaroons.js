@@ -90,3 +90,20 @@ sys.puts(macaroon.inspect());
 // > identifier we used our secret key
 // > signature e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f
 ````
+
+
+Verifying Your Macaroon
+----------------------------------
+
+A verifier can only ever successfully verify a macaroon
+when provided with the macaroon and its corresponding secret - no secret, no authorization.
+
+````Javascript
+var MacaroonsVerifier = require('macaroons.js').MacaroonsVerifier;
+
+var verifier = new MacaroonsVerifier(macaroon);
+var secret = "this is our super secret key; only we should know it";
+var valid = verifier.isValid(secret);
+
+// > True
+````

@@ -28,6 +28,8 @@ export = MacaroonsBuilder;
  */
 class MacaroonsBuilder {
 
+  "use strict";
+
   private macaroon:Macaroon = null;
 
   /**
@@ -63,17 +65,12 @@ class MacaroonsBuilder {
   }
 
   private computeMacaroon_with_keystring(location:string, secretKey:string, identifier:string):Macaroon {
-    return this.computeMacaroon(location, this.generate_derived_key(secretKey), identifier);
+    return this.computeMacaroon(location, CryptoTools.generate_derived_key(secretKey), identifier);
   }
 
   private computeMacaroon(location:string, secretKey:Buffer, identifier:string):Macaroon {
     var hmac:Buffer = CryptoTools.macaroon_hmac(secretKey, identifier);
     return new Macaroon(location, identifier, hmac);
-  }
-
-  private generate_derived_key(variableKey:string):Buffer {
-    var MACAROONS_MAGIC_KEY = "macaroons-key-generator";
-    return CryptoTools.macaroon_hmac(new Buffer(MACAROONS_MAGIC_KEY, "utf-8"), variableKey);
   }
 
 }
