@@ -5,7 +5,8 @@
   "readmeFilename": "README.md",
   "main": "index.js",
   "scripts": {
-    "test": "node ./node_modules/grunt-cli/bin/grunt test"
+    "test": "node ./node_modules/grunt-cli/bin/grunt test",
+    "before_deploy": "node ./node_modules/grunt-cli/bin/grunt clean default"
   },
   "repository": {
     "type": "git",
