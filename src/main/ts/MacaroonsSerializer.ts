@@ -20,6 +20,7 @@ import Macaroon = require('./Macaroon');
 import CaveatPacket = require('./CaveatPacket');
 import CaveatPacketType = require('./CaveatPacketType');
 import MacaroonsContants = require('./MacaroonsConstants');
+import Base64Tools = require('./Base64Tools');
 
 export = MacaroonsSerializer;
 class MacaroonsSerializer {
@@ -30,14 +31,16 @@ class MacaroonsSerializer {
 
   public static serialize(macaroon:Macaroon):string {
     var packets:Array<Buffer> = [];
-    packets.push(MacaroonsSerializer.serialize_packet(CaveatPacketType.location, macaroon.location));
-    packets.push(MacaroonsSerializer.serialize_packet(CaveatPacketType.identifier, macaroon.identifier));
-//  for (CaveatPacket caveatPacket : macaroon.caveatPackets) {
-//    packets.add(serialize_packet(caveatPacket.type, caveatPacket.rawValue));
-//  }
+    packets.push(
+        MacaroonsSerializer.serialize_packet(CaveatPacketType.location, macaroon.location),
+        MacaroonsSerializer.serialize_packet(CaveatPacketType.identifier, macaroon.identifier)
+    );
+    packets = packets.concat(macaroon.caveatPackets.map(function (caveatPacket) {
+      return MacaroonsSerializer.serialize_packet_buf(caveatPacket.type, caveatPacket.rawValue)
+    }));
     packets.push(MacaroonsSerializer.serialize_packet_buf(CaveatPacketType.signature, macaroon.signatureBuffer));
     var base64 = MacaroonsSerializer.flattenByteArray(packets).toString("base64");
-    return MacaroonsSerializer.encodeBase64UrlSafe(base64);
+    return Base64Tools.encodeBase64UrlSafe(base64);
   }
 
   private static serialize_packet(type:CaveatPacketType, data:string):Buffer {
@@ -78,7 +81,7 @@ class MacaroonsSerializer {
     return packet;
   }
 
-  private static flattenByteArray(bufs:Array<Buffer>):Buffer {
+  private static flattenByteArray(bufs:Buffer[]):Buffer {
     var size = 0;
     for (var i = 0; i < bufs.length; i++) {
       size += bufs[i].length;
@@ -92,7 +95,4 @@ class MacaroonsSerializer {
     return result
   }
 
-  private static encodeBase64UrlSafe(base64:string) : string {
-    return base64.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-  }
 }

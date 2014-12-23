@@ -36,7 +36,10 @@
     "node": "0.10.x",
     "npm": "1.4.x"
   },
-  "dependencies": {},
+  "dependencies": {
+    "ecma-nacl": "^1.4.0",
+    "typedarray-to-buffer": "^3.0.1"
+  },
   "devDependencies": {
     "expect.js": "~0.3.1",
     "grunt": "~0.4.2",
@@ -51,6 +54,5 @@
   },
   "directories": {
     "lib": "./lib"
-  },
-  "main": "index.js"
+  }
 }

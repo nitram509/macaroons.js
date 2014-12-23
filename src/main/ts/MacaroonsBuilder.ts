@@ -99,9 +99,35 @@ class MacaroonsBuilder {
         throw "Too many caveats. There are max. " + MacaroonsConstants.MACAROON_MAX_CAVEATS + " caveats allowed.";
       }
       var signature = CryptoTools.macaroon_hmac(this.macaroon.signatureBuffer, caveatBuffer);
-      this.macaroon.caveatPackets.push(new CaveatPacket(CaveatPacketType.cid, caveatBuffer));
-      this.macaroon = new Macaroon(this.macaroon.location, this.macaroon.identifier, signature, this.macaroon.caveatPackets);
+      var caveatsExtended = this.macaroon.caveatPackets.concat(new CaveatPacket(CaveatPacketType.cid, caveatBuffer));
+      this.macaroon = new Macaroon(this.macaroon.location, this.macaroon.identifier, signature, caveatsExtended);
     }
+    return this;
+  }
+
+
+  /**
+   * @param location   location
+   * @param secret     secret
+   * @param identifier identifier
+   * @return this {@link MacaroonsBuilder}
+   * @throws exception if there are more than {@link MacaroonsConstants#MACAROON_MAX_CAVEATS} caveats.
+   */
+  public add_third_party_caveat(location:string, secret:string, identifier:string):MacaroonsBuilder {
+    //assert location.length() < MACAROON_MAX_STRLEN;
+    //assert identifier.length() < MACAROON_MAX_STRLEN;
+
+    if (this.macaroon.caveatPackets.length + 1 > MacaroonsConstants.MACAROON_MAX_CAVEATS) {
+      throw "Too many caveats. There are max. " + MacaroonsConstants.MACAROON_MAX_CAVEATS + " caveats allowed.";
+    }
+    var thirdPartyPacket = CryptoTools.macaroon_add_third_party_caveat_raw(this.macaroon.signatureBuffer, secret, identifier);
+    var hash = thirdPartyPacket.signature;
+    var caveatsExtended = this.macaroon.caveatPackets.concat(
+        new CaveatPacket(CaveatPacketType.cid, identifier),
+        new CaveatPacket(CaveatPacketType.vid, thirdPartyPacket.vid_data),
+        new CaveatPacket(CaveatPacketType.cl, location)
+    );
+    this.macaroon = new Macaroon(this.macaroon.location, this.macaroon.identifier, hash, caveatsExtended);
     return this;
   }
 

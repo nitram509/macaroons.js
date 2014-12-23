@@ -18,23 +18,18 @@ import Macaroon = require('./Macaroon');
 import CaveatPacket = require('./CaveatPacket');
 import CaveatPacketType = require('./CaveatPacketType');
 import MacaroonsConstants = require('./MacaroonsConstants');
+import Base64Tools = require('./Base64Tools');
 
 export = MacaroonsDeSerializer;
 class MacaroonsDeSerializer {
 
-  private static BASE64_PADDING:string = '===';
-
   public static deserialize(serializedMacaroon:string):Macaroon {
-    var data = new Buffer(MacaroonsDeSerializer.transformBase64UrlSafe2Base64(serializedMacaroon), 'base64');
+    var data = new Buffer(Base64Tools.transformBase64UrlSafe2Base64(serializedMacaroon), 'base64');
     var minLength = MacaroonsConstants.MACAROON_HASH_BYTES + MacaroonsConstants.KEY_VALUE_SEPARATOR_LEN + MacaroonsConstants.SIGNATURE.length;
     if (data.length < minLength) {
       throw "Couldn't deserialize macaroon. Not enough bytes for signature found. There have to be at least " + minLength + " bytes";
     }
     return MacaroonsDeSerializer.deserializeStream(new StatefulPacketReader(data));
-  }
-
-  private static transformBase64UrlSafe2Base64(base64:string):string {
-    return base64.replace(/-/g, '+').replace(/_/g, '/') + MacaroonsDeSerializer.BASE64_PADDING.substr(0, 3 - (base64.length % 3));
   }
 
   private static deserializeStream(packetReader:StatefulPacketReader):Macaroon {
