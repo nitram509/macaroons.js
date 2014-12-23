@@ -22,6 +22,7 @@ var expect = require('expect.js');
 import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
 import MacaroonsVerifier = require('../../main/ts/MacaroonsVerifier');
 import Macaroon = require('../../main/ts/Macaroon');
+import TimestampCaveatVerifier = require('../../main/ts/verifier/TimestampCaveatVerifier');
 
 describe('MacaroonsVerifierTest', function () {
 
@@ -30,12 +31,14 @@ describe('MacaroonsVerifierTest', function () {
   var secretBytes = new Buffer('a96173391e6bfa0356bbf095621b8af1510968e770e4d27d62109b7dc374814b', 'hex');
   var identifier = 'we used our secret key';
 
+
   it("verify a valid Macaroon", function () {
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
     var verifier = new MacaroonsVerifier(m);
 
     expect(verifier.isValid(secret)).to.be(true);
   });
+
 
   it("verify a valid Macaroon with assertion", function () {
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
@@ -52,11 +55,54 @@ describe('MacaroonsVerifierTest', function () {
     expect(verifier.isValid("wrong secret")).to.be(false);
   });
 
+
   it("verify an invalid Macaroon with assertion", function () {
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
     var verifier = new MacaroonsVerifier(m);
 
     expect(verifier.assertIsValid).withArgs("wrong secret").to.throwException();
+  });
+
+
+  it("verification satisfy exact first party caveat", function () {
+    var m = new MacaroonsBuilder(location, secret, identifier)
+        .add_first_party_caveat("account = 3735928559")
+        .getMacaroon();
+
+    var verifier = new MacaroonsVerifier(m);
+    expect(verifier.isValid(secret)).to.be(false);
+
+    verifier.satisfyExcact("account = 3735928559");
+    expect(verifier.isValid(secret)).to.be(true);
+  });
+
+
+  it("verification satisfy exact attenuate with additional caveats", function () {
+    var m = new MacaroonsBuilder(location, secret, identifier)
+        .add_first_party_caveat("account = 3735928559")
+        .getMacaroon();
+
+    var verifier = new MacaroonsVerifier(m);
+    expect(verifier.isValid(secret)).to.be(false);
+
+    verifier.satisfyExcact("account = 3735928559");
+    verifier.satisfyExcact("IP = 127.0.0.1')");
+    verifier.satisfyExcact("browser = Chrome')");
+    verifier.satisfyExcact("action = deposit");
+    expect(verifier.isValid(secret)).to.be(true);
+  });
+
+
+  it("verification general", function () {
+    var m = new MacaroonsBuilder(location, secret, identifier)
+        .add_first_party_caveat("time < 2020-12-31T18:23:45Z")
+        .getMacaroon();
+
+    var verifier = new MacaroonsVerifier(m);
+    expect(verifier.isValid(secret)).to.be(false);
+
+    verifier.satisfyGeneral(TimestampCaveatVerifier);
+    expect(verifier.isValid(secret)).to.be(true);
   });
 
 });

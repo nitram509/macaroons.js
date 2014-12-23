@@ -19,5 +19,9 @@ module.exports = {
   "MacaroonsVerifier" : require('./lib/MacaroonsVerifier'),
   "MacaroonsSerializer" : require('./lib/MacaroonsSerializer'),
   "MacaroonsDeSerializer" : require('./lib/MacaroonsDeSerializer'),
-  "Macaroon" : require('./lib/Macaroon')
+  "Macaroon" : require('./lib/Macaroon'),
+
+  "verifier" : {
+    "TimestampCaveatVerifier" : require('./lib/verifier/TimestampCaveatVerifier')
+  }
 };

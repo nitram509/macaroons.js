@@ -45,8 +45,10 @@ module.exports = function (grunt) {
         copy: {
           main: {
             files: [
-              // includes files within path
-              {expand: true, cwd: 'build/node/', src: ['*.js'], dest: 'lib/', filter: 'isFile'}
+              {expand: true, cwd: 'build/node/', src: ['*.js'], dest: 'lib/', filter: 'isFile'},
+              {expand: true, cwd: 'build/node/', src: ['*.js.map'], dest: 'lib/', filter: 'isFile'},
+              {expand: true, cwd: 'build/node/', src: ['verifier/*.js'], dest: 'lib/', filter: 'isFile'},
+              {expand: true, cwd: 'build/node/', src: ['verifier/*.js.map'], dest: 'lib/', filter: 'isFile'}
             ]
           }
         },
@@ -57,7 +59,7 @@ module.exports = function (grunt) {
             quiet: false, // Optionally suppress output to standard out (defaults to false)
             clearRequireCache: false // Optionally clear the require cache before running tests (defaults to false)
           },
-          src: ['build/node/test/ts/*.js']
+          src: ['build/node/test/ts/**/*.js']
         }
 
       });

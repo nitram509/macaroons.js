@@ -152,7 +152,7 @@ var macaroon = new MacaroonsBuilder(location, secretKey, identifier)
     .add_first_party_caveat("account = 3735928559")
     .getMacaroon();
 var verifier = new MacaroonsVerifier(macaroon);
-verifier.isValid(secretKey);
+sys.puts(verifier.isValid(secretKey));
 // > False
 ````
 
@@ -164,7 +164,7 @@ match, it knows that the caveat holds and it can move onto the next caveat in
 the macaroon.
 ````Javascript
 verifier.satisfyExcact("account = 3735928559");
-verifier.isValid(secretKey);
+sys.puts(verifier.isValid(secretKey));
 // > True
 ````
 
@@ -176,7 +176,7 @@ self-attenuate itself macaroons to be only usable from IP address and browser:
 ````Javascript
 verifier.satisfyExcact("IP = 127.0.0.1')");
 verifier.satisfyExcact("browser = Chrome')");
-verifier.isValid(secretKey);
+sys.puts(verifier.isValid(secretKey));
 // > True
 ````
 
@@ -188,10 +188,11 @@ var macaroon = new MacaroonsBuilder(location, secretKey, identifier)
     .add_first_party_caveat("time < 2042-01-01T00:00")
     .getMacaroon();
 var verifier = new MacaroonsVerifier(macaroon);
-verifier.isValid(secretKey);
+sys.puts(verifier.isValid(secretKey));
 // > False
 
-verifier.satisfyGeneral(new TimestampCaveatVerifier());
-verifier.isValid(secretKey);
+var TimestampCaveatVerifier = require('macaroons.js').verifier.TimestampCaveatVerifier;
+verifier.satisfyGeneral(TimestampCaveatVerifier);
+sys.puts(verifier.isValid(secretKey));
 // > True
 ````

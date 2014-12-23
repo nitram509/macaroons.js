@@ -22,7 +22,6 @@ import Macaroon = require('./Macaroon');
 import BufferTools = require('./BufferTools');
 import MacaroonsDeSerializer = require('./MacaroonsDeSerializer');
 import CryptoTools = require('./CryptoTools');
-import GeneralCaveatVerifier = require('./GeneralCaveatVerifier');
 
 export = MacaroonsVerifier;
 
@@ -57,6 +56,44 @@ class MacaroonsVerifier {
   public isValid(secret:string):boolean {
     var secretBuffer = CryptoTools.generate_derived_key(secret);
     return !this.isValid_verify_raw(this.macaroon, secretBuffer).fail;
+  }
+
+  /**
+   * Caveats like these are called "exact caveats" because there is exactly one way
+   * to satisfy them.  Either the given caveat matches, or it doesn't.  At
+   * verification time, the verifier will check each caveat in the macaroon against
+   * the list of satisfied caveats provided to satisfyExcact(String).
+   * When it finds a match, it knows that the caveat holds and it can move onto the next caveat in
+   * the macaroon.
+   *
+   * @param caveat caveat
+   * @return this {@link MacaroonsVerifier}
+   */
+  public satisfyExcact(caveat:string):MacaroonsVerifier {
+    if (typeof caveat !== 'undefined') {
+      this.predicates.push(caveat);
+    }
+    return this;
+  }
+
+  /**
+   * Another technique for informing the verifier that a caveat is satisfied
+   * allows for expressive caveats. Whereas exact caveats are checked
+   * by simple byte-wise equality, general caveats are checked using
+   * an application-provided callback that returns true if and only if the caveat
+   * is true within the context of the request.
+   * There's no limit on the contents of a general caveat,
+   * so long as the callback understands how to determine whether it is satisfied.
+   * This technique is called "general caveats".
+   *
+   * @param generalVerifier generalVerifier a function(caveat:string):boolean which does the verification
+   * @return this {@link MacaroonsVerifier}
+   */
+  public satisfyGeneral(generalVerifier:(caveat:string)=>boolean):MacaroonsVerifier {
+    if (typeof generalVerifier !== undefined) {
+      this.generalCaveatVerifiers.push(generalVerifier);
+    }
+    return this;
   }
 
   private  isValid_verify_raw(M:Macaroon, secret:Buffer):VerificationResult {
@@ -117,7 +154,7 @@ class MacaroonsVerifier {
     var found:boolean = false;
     for (var i = 0; i < this.generalCaveatVerifiers.length; i++) {
       var verifier:GeneralCaveatVerifier = this.generalCaveatVerifiers[i];
-      found = found || verifier.verifyCaveat(caveat);
+      found = found || verifier(caveat);
     }
     return found;
   }
@@ -151,4 +188,13 @@ class VerificationResult {
     }
   }
 
+}
+
+
+interface GeneralCaveatVerifier {
+  /**
+   * @param caveat caveat
+   * @return True, if this caveat is satisfies the applications requirements. False otherwise.
+   */
+  (caveat:string):boolean;
 }
