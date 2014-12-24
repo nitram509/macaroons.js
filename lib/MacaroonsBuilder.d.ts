@@ -53,6 +53,12 @@ declare class MacaroonsBuilder {
      * @throws exception if there are more than {@link MacaroonsConstants#MACAROON_MAX_CAVEATS} caveats.
      */
     add_third_party_caveat(location: string, secret: string, identifier: string): MacaroonsBuilder;
+    /**
+     * @param macaroon macaroon used for preparing a request
+     * @return this {@link MacaroonsBuilder}
+     * @throws com.github.nitram509.jmacaroons.GeneralSecurityRuntimeException
+     */
+    prepare_for_request(macaroon: Macaroon): MacaroonsBuilder;
     private computeMacaroon_with_keystring(location, secretKey, identifier);
     private computeMacaroon(location, secretKey, identifier);
 }

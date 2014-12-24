@@ -62,22 +62,33 @@ class CryptoTools {
     var enc_plaintext:Buffer = new Buffer(MacaroonsContants.MACAROON_HASH_BYTES);
     enc_plaintext.fill(0);
     /* now encrypt the key to give us vid */
-    derived_key.copy(enc_plaintext,0, 0, MacaroonsContants.MACAROON_HASH_BYTES);
+    derived_key.copy(enc_plaintext, 0, 0, MacaroonsContants.MACAROON_HASH_BYTES);
 
     var enc_ciphertext = CryptoTools.macaroon_secretbox(old_sig, enc_nonce, enc_plaintext);
 
     var vid:Buffer = new Buffer(MacaroonsContants.VID_NONCE_KEY_SZ);
     vid.fill(0);
     enc_nonce.copy(vid, 0, 0, MacaroonsContants.MACAROON_SECRET_NONCE_BYTES);
-    enc_ciphertext.copy(vid, MacaroonsContants.MACAROON_SECRET_NONCE_BYTES,0,MacaroonsContants.VID_NONCE_KEY_SZ - MacaroonsContants.MACAROON_SECRET_NONCE_BYTES);
+    enc_ciphertext.copy(vid, MacaroonsContants.MACAROON_SECRET_NONCE_BYTES, 0, MacaroonsContants.VID_NONCE_KEY_SZ - MacaroonsContants.MACAROON_SECRET_NONCE_BYTES);
 
     var new_sig:Buffer = CryptoTools.macaroon_hash2(old_sig, vid, new Buffer(identifier, MacaroonsContants.IDENTIFIER_CHARSET));
     return new ThirdPartyPacket(new_sig, vid);
   }
 
-  private static macaroon_secretbox(key:Buffer, nonce:Buffer, plaintext:Buffer):Buffer {
+  public static macaroon_bind(Msig:Buffer, MPsig:Buffer):Buffer {
+    var key:Buffer = new Buffer(MacaroonsContants.MACAROON_HASH_BYTES);
+    key.fill(0);
+    return CryptoTools.macaroon_hash2(key, Msig, MPsig);
+  }
+
+  public static macaroon_secretbox(key:Buffer, nonce:Buffer, plaintext:Buffer):Buffer {
     var cipher_bytes = nacl.secret_box.pack(new Uint8Array(<any>plaintext), new Uint8Array(<any>nonce), new Uint8Array(<any>key));
     return toBuffer(cipher_bytes);
+  }
+
+  public static macaroon_secretbox_open(enc_key:Buffer, enc_nonce:Buffer, ciphertext:Buffer):Buffer {
+    var plain_bytes = nacl.secret_box.open(new Uint8Array(<any>ciphertext), new Uint8Array(<any>enc_nonce), new Uint8Array(<any>enc_key));
+    return toBuffer(plain_bytes);
   }
 
 }

@@ -30,6 +30,13 @@ declare class MacaroonsVerifier {
      */
     satisfyExact(caveat: string): MacaroonsVerifier;
     /**
+     * Binds a prepared macaroon.
+     *
+     * @param preparedMacaroon preparedMacaroon
+     * @return this {@link MacaroonsVerifier}
+     */
+    satisfy3rdParty(preparedMacaroon: Macaroon): MacaroonsVerifier;
+    /**
      * Another technique for informing the verifier that a caveat is satisfied
      * allows for expressive caveats. Whereas exact caveats are checked
      * by simple byte-wise equality, general caveats are checked using
@@ -45,6 +52,7 @@ declare class MacaroonsVerifier {
     satisfyGeneral(generalVerifier: (caveat: string) => boolean): MacaroonsVerifier;
     private isValid_verify_raw(M, secret);
     private macaroon_verify_inner(M, key);
+    private macaroon_verify_inner_3rd(M, C, sig);
     private findBoundMacaroon(identifier);
     private verifiesGeneral(caveat);
     private static containsElement(elements, anElement);

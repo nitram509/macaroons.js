@@ -131,6 +131,19 @@ class MacaroonsBuilder {
     return this;
   }
 
+  /**
+   * @param macaroon macaroon used for preparing a request
+   * @return this {@link MacaroonsBuilder}
+   * @throws com.github.nitram509.jmacaroons.GeneralSecurityRuntimeException
+   */
+  public prepare_for_request(macaroon:Macaroon):MacaroonsBuilder {
+    //assert macaroon.signatureBytes.length > 0;
+    //assert getMacaroon().signatureBytes.length > 0;
+    var hash = CryptoTools.macaroon_bind(this.getMacaroon().signatureBuffer, macaroon.signatureBuffer);
+    this.macaroon = new Macaroon(macaroon.location, macaroon.identifier, hash, macaroon.caveatPackets);
+    return this;
+  }
+
   private computeMacaroon_with_keystring(location:string, secretKey:string, identifier:string):Macaroon {
     return this.computeMacaroon(location, CryptoTools.generate_derived_key(secretKey), identifier);
   }

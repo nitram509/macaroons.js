@@ -19,6 +19,7 @@
 import CaveatPacket = require('./CaveatPacket');
 import CaveatPacketType = require('./CaveatPacketType');
 import Macaroon = require('./Macaroon');
+import MacaroonsConstants = require('./MacaroonsConstants');
 import BufferTools = require('./BufferTools');
 import MacaroonsDeSerializer = require('./MacaroonsDeSerializer');
 import CryptoTools = require('./CryptoTools');
@@ -70,8 +71,21 @@ class MacaroonsVerifier {
    * @return this {@link MacaroonsVerifier}
    */
   public satisfyExact(caveat:string):MacaroonsVerifier {
-    if (typeof caveat !== 'undefined') {
+    if (caveat) {
       this.predicates.push(caveat);
+    }
+    return this;
+  }
+
+  /**
+   * Binds a prepared macaroon.
+   *
+   * @param preparedMacaroon preparedMacaroon
+   * @return this {@link MacaroonsVerifier}
+   */
+  public satisfy3rdParty(preparedMacaroon:Macaroon):MacaroonsVerifier {
+    if (preparedMacaroon) {
+      this.boundMacaroons.push(preparedMacaroon);
     }
     return this;
   }
@@ -90,7 +104,7 @@ class MacaroonsVerifier {
    * @return this {@link MacaroonsVerifier}
    */
   public satisfyGeneral(generalVerifier:(caveat:string)=>boolean):MacaroonsVerifier {
-    if (typeof generalVerifier !== undefined) {
+    if (generalVerifier) {
       this.generalCaveatVerifiers.push(generalVerifier);
     }
     return this;
@@ -127,10 +141,10 @@ class MacaroonsVerifier {
             var msg = "Couldn't verify 3rd party macaroon, because no discharged macaroon was provided to the verifier.";
             return new VerificationResult(msg);
           }
-          //if (!macaroon_verify_inner_3rd(boundMacaroon, caveat_vid, csig)) {
-          //  var msg = "Couldn't verify 3rd party macaroon, identifier= " + boundMacaroon.identifier;
-          //  return new VerificationResult(msg);
-          //}
+          if (!this.macaroon_verify_inner_3rd(boundMacaroon, caveat_vid, csig)) {
+            var msg = "Couldn't verify 3rd party macaroon, identifier= " + boundMacaroon.identifier;
+            return new VerificationResult(msg);
+          }
           var data = caveat.rawValue;
           var vdata = caveat_vid.rawValue;
           csig = CryptoTools.macaroon_hash2(csig, vdata, data);
@@ -138,6 +152,38 @@ class MacaroonsVerifier {
       }
     }
     return new VerificationResult(csig);
+  }
+
+  private macaroon_verify_inner_3rd(M:Macaroon, C:CaveatPacket, sig:Buffer):boolean {
+    if (!M) return false;
+    var enc_plaintext = new Buffer(MacaroonsConstants.MACAROON_SECRET_TEXT_ZERO_BYTES + MacaroonsConstants.MACAROON_HASH_BYTES);
+    var enc_ciphertext = new Buffer(MacaroonsConstants.MACAROON_HASH_BYTES + MacaroonsConstants.SECRET_BOX_OVERHEAD);
+    enc_plaintext.fill(0);
+    enc_ciphertext.fill(0);
+
+    var vid_data = C.rawValue;
+    //assert vid_data.length == VID_NONCE_KEY_SZ;
+    /**
+     * the nonce is in the first MACAROON_SECRET_NONCE_BYTES
+     * of the vid; the ciphertext is in the rest of it.
+     */
+    var enc_nonce = new Buffer(MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES);
+    vid_data.copy(enc_nonce, 0, 0, enc_nonce.length);
+
+    /* fill in the ciphertext */
+    vid_data.copy(enc_ciphertext, 0, MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES, MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES + vid_data.length - MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES);
+    // TODO try-catch to detect decoding errors
+    var enc_plaintext = CryptoTools.macaroon_secretbox_open(sig, enc_nonce, enc_ciphertext);
+
+    var key = new Buffer(MacaroonsConstants.MACAROON_HASH_BYTES);
+    key.fill(0);
+    enc_plaintext.copy(key, 0, 0, MacaroonsConstants.MACAROON_HASH_BYTES);
+    var vresult = this.macaroon_verify_inner(M, key);
+
+    var data = this.macaroon.signatureBuffer;
+    var csig = CryptoTools.macaroon_bind(data, vresult.csig);
+
+    return BufferTools.equals(csig, M.signatureBuffer);
   }
 
   private findBoundMacaroon(identifier:string):Macaroon {
