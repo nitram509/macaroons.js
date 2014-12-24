@@ -14,8 +14,8 @@ module.exports = function (grunt) {
               module: 'commonjs',
               target: 'es5',
               basePath: 'src/main/ts/',
-              sourceMap: true,
-              declaration: false
+              sourceMap: false,
+              declaration: true
             }
           },
           test: {
@@ -46,9 +46,9 @@ module.exports = function (grunt) {
           main: {
             files: [
               {expand: true, cwd: 'build/node/', src: ['*.js'], dest: 'lib/', filter: 'isFile'},
-              {expand: true, cwd: 'build/node/', src: ['*.js.map'], dest: 'lib/', filter: 'isFile'},
+              {expand: true, cwd: 'build/node/', src: ['*.d.ts'], dest: 'lib/', filter: 'isFile'},
               {expand: true, cwd: 'build/node/', src: ['verifier/*.js'], dest: 'lib/', filter: 'isFile'},
-              {expand: true, cwd: 'build/node/', src: ['verifier/*.js.map'], dest: 'lib/', filter: 'isFile'}
+              {expand: true, cwd: 'build/node/', src: ['verifier/*.d.ts'], dest: 'lib/', filter: 'isFile'}
             ]
           }
         },
