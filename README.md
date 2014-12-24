@@ -159,11 +159,11 @@ sys.puts(verifier.isValid(secretKey));
 Caveats like these are called "exact caveats" because there is exactly one way
 to satisfy them.  Either the account number is 3735928559, or it isn't.  At
 verification time, the verifier will check each caveat in the macaroon against
-the list of satisfied caveats provided to "satisfyExcact()".  When it finds a
+the list of satisfied caveats provided to "satisfyExact()".  When it finds a
 match, it knows that the caveat holds and it can move onto the next caveat in
 the macaroon.
 ````Javascript
-verifier.satisfyExcact("account = 3735928559");
+verifier.satisfyExact("account = 3735928559");
 sys.puts(verifier.isValid(secretKey));
 // > True
 ````
@@ -174,8 +174,8 @@ policy changes; for example, by adding the three following facts,
 the verifier will continue to work even if someone decides to
 self-attenuate itself macaroons to be only usable from IP address and browser:
 ````Javascript
-verifier.satisfyExcact("IP = 127.0.0.1')");
-verifier.satisfyExcact("browser = Chrome')");
+verifier.satisfyExact("IP = 127.0.0.1')");
+verifier.satisfyExact("browser = Chrome')");
 sys.puts(verifier.isValid(secretKey));
 // > True
 ````

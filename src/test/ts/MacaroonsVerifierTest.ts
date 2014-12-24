@@ -72,7 +72,7 @@ describe('MacaroonsVerifierTest', function () {
     var verifier = new MacaroonsVerifier(m);
     expect(verifier.isValid(secret)).to.be(false);
 
-    verifier.satisfyExcact("account = 3735928559");
+    verifier.satisfyExact("account = 3735928559");
     expect(verifier.isValid(secret)).to.be(true);
   });
 
@@ -85,10 +85,10 @@ describe('MacaroonsVerifierTest', function () {
     var verifier = new MacaroonsVerifier(m);
     expect(verifier.isValid(secret)).to.be(false);
 
-    verifier.satisfyExcact("account = 3735928559");
-    verifier.satisfyExcact("IP = 127.0.0.1')");
-    verifier.satisfyExcact("browser = Chrome')");
-    verifier.satisfyExcact("action = deposit");
+    verifier.satisfyExact("account = 3735928559");
+    verifier.satisfyExact("IP = 127.0.0.1')");
+    verifier.satisfyExact("browser = Chrome')");
+    verifier.satisfyExact("action = deposit");
     expect(verifier.isValid(secret)).to.be(true);
   });
 

@@ -62,14 +62,14 @@ class MacaroonsVerifier {
    * Caveats like these are called "exact caveats" because there is exactly one way
    * to satisfy them.  Either the given caveat matches, or it doesn't.  At
    * verification time, the verifier will check each caveat in the macaroon against
-   * the list of satisfied caveats provided to satisfyExcact(String).
+   * the list of satisfied caveats provided to satisfyExact(String).
    * When it finds a match, it knows that the caveat holds and it can move onto the next caveat in
    * the macaroon.
    *
    * @param caveat caveat
    * @return this {@link MacaroonsVerifier}
    */
-  public satisfyExcact(caveat:string):MacaroonsVerifier {
+  public satisfyExact(caveat:string):MacaroonsVerifier {
     if (typeof caveat !== 'undefined') {
       this.predicates.push(caveat);
     }
