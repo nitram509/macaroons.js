@@ -172,9 +172,16 @@ class MacaroonsVerifier {
 
     /* fill in the ciphertext */
     vid_data.copy(enc_ciphertext, 0, MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES, MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES + vid_data.length - MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES);
-    // TODO try-catch to detect decoding errors
-    var enc_plaintext = CryptoTools.macaroon_secretbox_open(sig, enc_nonce, enc_ciphertext);
-
+    try {
+      var enc_plaintext = CryptoTools.macaroon_secretbox_open(sig, enc_nonce, enc_ciphertext);
+    }
+    catch (error) {
+      if (/Cipher bytes fail verification/.test(error.message)) {
+        return false;
+      } else {
+        throw new Error("Error while deciphering 3rd party caveat, msg=" + error);
+      }
+    }
     var key = new Buffer(MacaroonsConstants.MACAROON_HASH_BYTES);
     key.fill(0);
     enc_plaintext.copy(key, 0, 0, MacaroonsConstants.MACAROON_HASH_BYTES);
