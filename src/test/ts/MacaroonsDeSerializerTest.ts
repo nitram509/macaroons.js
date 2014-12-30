@@ -42,15 +42,15 @@ describe('MacaroonDeSerializerTest', function () {
     expect(m.signature).to.be(deserialized.signature);
   });
 
-  it("to short base64 throws exception", function () {
+  it("to short base64 throws Error", function () {
     // packet is: "123"
-    expect(MacaroonsDeSerializer.deserialize).withArgs("MTIzDQo=").to.throwException(/.*Not enough bytes for signature found.*/);
+    expect(MacaroonsDeSerializer.deserialize).withArgs("MTIzDQo=").to.throwError(/.*Not enough bytes for signature found.*/);
   });
 
-  it("invalid packet length throws exception", function () {
+  it("invalid packet length throws Error", function () {
     // packet is: "fffflocation http://mybank12345678901234567890.com"
     expect(MacaroonsDeSerializer.deserialize).withArgs("ZmZmZmxvY2F0aW9uIGh0dHA6Ly9teWJhbmsxMjM0NTY3ODkwMTIzNDU2Nzg5MC5jb20=")
-        .to.throwException(/.*Not enough data bytes available.*/);
+        .to.throwError(/.*Not enough data bytes available.*/);
   });
 
 });

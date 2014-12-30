@@ -35,7 +35,7 @@ class CryptoTools {
   public static macaroon_hmac(key:Buffer, message:string):Buffer;
   public static macaroon_hmac(key:Buffer, message:Buffer):Buffer;
   public static macaroon_hmac(key:Buffer, message:any):Buffer {
-    if (typeof message === 'undefined') throw "Missing second parameter 'message'.";
+    if (typeof message === 'undefined') throw new Error("Missing second parameter 'message'.");
 
     var mac = crypto.createHmac('sha256', key);
     if (typeof message === 'string') {

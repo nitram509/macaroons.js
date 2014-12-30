@@ -46,7 +46,8 @@ class MacaroonsVerifier {
     var secretBuffer = CryptoTools.generate_derived_key(secret);
     var result = this.isValid_verify_raw(this.macaroon, secretBuffer);
     if (result.fail) {
-      throw result.failMessage != null ? result.failMessage : "This macaroon isn't valid.";
+      var msg = result.failMessage != null ? result.failMessage : "This macaroon isn't valid.";
+      throw new Error(msg);
     }
   }
 
