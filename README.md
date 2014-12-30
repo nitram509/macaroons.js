@@ -15,8 +15,6 @@ The primary goals are
 There is a [playground](http://www.macaroons.io/) (testing environment) available,
 where you can build and verify macaroons online. 
 
-## Work in Progress !!!
-
 ##### License
 
 [![License: Apache 2.0](https://img.shields.io/:license-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
