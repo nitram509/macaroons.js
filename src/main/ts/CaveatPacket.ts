@@ -16,6 +16,7 @@
 
 import CaveatPacketType = require('./CaveatPacketType');
 import MacaroonsContants = require('./MacaroonsConstants');
+import Base64Tools = require('./Base64Tools');
 
 export = CaveatPacket;
 class CaveatPacket {
@@ -46,12 +47,11 @@ class CaveatPacket {
   }
 
   public getValueAsText():string {
-    if (this.type == CaveatPacketType.vid) {
-      if (this.valueAsText == null) {
-        //this.valueAsText = Base64.encodeUrlSafeToString(this.rawValue); // TODO implement!
-      }
-      return this.valueAsText;
+    if (this.valueAsText == null) {
+      this.valueAsText = (this.type == CaveatPacketType.vid)
+          ? Base64Tools.encodeBase64UrlSafe(this.rawValue.toString('base64'))
+          : this.rawValue.toString(MacaroonsContants.IDENTIFIER_CHARSET);
     }
-    return this.rawValue.toString(MacaroonsContants.IDENTIFIER_CHARSET);
+    return this.valueAsText;
   }
 }
