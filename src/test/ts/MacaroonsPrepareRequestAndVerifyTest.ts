@@ -98,6 +98,20 @@ describe('MacaroonsPrepareRequestAndVerifyTest', function () {
   });
 
 
+  it("verifying with wrong secret -> has to fail, but no exceptions", function() {
+    setup();
+    preparing_a_macaroon_for_request();
+
+    var valid = new MacaroonsVerifier(M)
+        .satisfyExact("account = 3735928559")
+        .satisfyGeneral(TimestampCaveatVerifier)
+        .satisfy3rdParty(DP)
+        .isValid("wrong secret");
+
+    expect(valid).to.be(false);
+  });
+
+
   it("verifying unprepared macaroon -> has to fail", function() {
     setup();
     preparing_a_macaroon_for_request();

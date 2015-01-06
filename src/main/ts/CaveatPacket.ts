@@ -16,6 +16,7 @@
 
 import CaveatPacketType = require('./CaveatPacketType');
 import MacaroonsContants = require('./MacaroonsConstants');
+import Base64Tools = require('./Base64Tools');
 
 export = CaveatPacket;
 class CaveatPacket {
@@ -28,7 +29,7 @@ class CaveatPacket {
   constructor(type:CaveatPacketType, valueAsText:string);
   constructor(type:CaveatPacketType, valueAsBuffer:Buffer);
   constructor(type:CaveatPacketType, value:any) {
-    if (typeof value === 'undefinded') throw "Missing second parameter 'value' from type 'string' or 'Buffer'";
+    if (typeof value === 'undefinded') throw new Error("Missing second parameter 'value' from type 'string' or 'Buffer'");
 
     //assert type != null;
     //assert rawValue != null;
@@ -46,12 +47,11 @@ class CaveatPacket {
   }
 
   public getValueAsText():string {
-    if (this.type == CaveatPacketType.vid) {
-      if (this.valueAsText == null) {
-        //this.valueAsText = Base64.encodeUrlSafeToString(this.rawValue); // TODO implement!
-      }
-      return this.valueAsText;
+    if (this.valueAsText == null) {
+      this.valueAsText = (this.type == CaveatPacketType.vid)
+          ? Base64Tools.encodeBase64UrlSafe(this.rawValue.toString('base64'))
+          : this.rawValue.toString(MacaroonsContants.IDENTIFIER_CHARSET);
     }
-    return this.rawValue.toString(MacaroonsContants.IDENTIFIER_CHARSET);
+    return this.valueAsText;
   }
 }

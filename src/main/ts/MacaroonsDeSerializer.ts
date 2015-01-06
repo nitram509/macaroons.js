@@ -27,7 +27,7 @@ class MacaroonsDeSerializer {
     var data = new Buffer(Base64Tools.transformBase64UrlSafe2Base64(serializedMacaroon), 'base64');
     var minLength = MacaroonsConstants.MACAROON_HASH_BYTES + MacaroonsConstants.KEY_VALUE_SEPARATOR_LEN + MacaroonsConstants.SIGNATURE.length;
     if (data.length < minLength) {
-      throw "Couldn't deserialize macaroon. Not enough bytes for signature found. There have to be at least " + minLength + " bytes";
+      throw new Error("Couldn't deserialize macaroon. Not enough bytes for signature found. There have to be at least " + minLength + " bytes");
     }
     return MacaroonsDeSerializer.deserializeStream(new StatefulPacketReader(data));
   }
@@ -92,7 +92,7 @@ class MacaroonsDeSerializer {
   private static readPacket(stream:StatefulPacketReader):Packet {
     if (stream.isEOF()) return null;
     if (!stream.isPacketHeaderAvailable()) {
-      throw "Not enough header bytes available. Needed " + MacaroonsConstants.PACKET_PREFIX_LENGTH + " bytes.";
+      throw new Error("Not enough header bytes available. Needed " + MacaroonsConstants.PACKET_PREFIX_LENGTH + " bytes.");
     }
     var size = stream.readPacketHeader();
     //assert size <= PACKET_MAX_SIZE;
@@ -101,7 +101,7 @@ class MacaroonsDeSerializer {
     var read = stream.read(data);
     if (read < 0) return null;
     if (read != data.length) {
-      throw "Not enough data bytes available. Needed " + data.length + " bytes, but was only " + read;
+      throw new Error("Not enough data bytes available. Needed " + data.length + " bytes, but was only " + read);
     }
     return new Packet(size, data);
   }
