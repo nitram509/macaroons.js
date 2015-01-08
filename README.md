@@ -10,6 +10,8 @@ holders' actions are authorized.  But macaroons are better than cookies!
 This project started as a port of libmacaroons[[2]](https://github.com/rescrv/libmacaroons) library.
 The primary goals are
    * being compatible to libmacaroons (and others)
+   * optimized for Node.js like environment
+   * focus on binary serialization format (currently, JSON format isn't supported)
    * being the reference implementation in the Javascript community ;-)
 
 There is a [playground](http://www.macaroons.io/) (testing environment) available,
