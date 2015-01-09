@@ -27,12 +27,12 @@ import TimestampCaveatVerifier = require('../../main/ts/verifier/TimestampCaveat
 describe('MacaroonsVerifierTest', function () {
 
   var location = 'http://mybank/';
-  var secret = 'this is our super secret key; only we should know it';
+  var secret:any = 'this is our super secret key; only we should know it';
   var secretBytes = new Buffer('a96173391e6bfa0356bbf095621b8af1510968e770e4d27d62109b7dc374814b', 'hex');
   var identifier = 'we used our secret key';
 
 
-  it("verify a valid Macaroon", function () {
+  it("verify a valid Macaroon with secret string", function () {
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
     var verifier = new MacaroonsVerifier(m);
 
@@ -40,7 +40,25 @@ describe('MacaroonsVerifierTest', function () {
   });
 
 
-  it("verify a valid Macaroon with assertion", function () {
+  it("verify a valid Macaroon with secret Buffer", function () {
+    secret = new Buffer(secret, 'ascii');
+    var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
+    var verifier = new MacaroonsVerifier(m);
+
+    expect(verifier.isValid(secret)).to.be(true);
+  });
+
+
+  it("verify a valid Macaroon with assertion with secret string", function () {
+    var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
+    var verifier = new MacaroonsVerifier(m);
+
+    expect(verifier.assertIsValid.bind(verifier)).withArgs(secret).to.not.throwException();
+  });
+
+
+  it("verify a valid Macaroon with assertion with secret Buffer", function () {
+    secret = new Buffer(secret, 'ascii');
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
     var verifier = new MacaroonsVerifier(m);
 

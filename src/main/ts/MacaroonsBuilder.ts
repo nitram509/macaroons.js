@@ -36,17 +36,26 @@ class MacaroonsBuilder {
 
   /**
    * @param location   location
-   * @param secretKey  secretKey this secret will be enhanced, in case it's shorter than {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH}
+   * @param secretKey  a string this secret will be enhanced, in case it's shorter than {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH}
    * @param identifier identifier
    */
   constructor(location:string, secretKey:string, identifier:string);
   /**
+   * @param location   location
+   * @param secretKey  a Buffer, that will be used, a minimum length of {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH} is highly recommended
+   * @param identifier identifier
+   */
+  constructor(location:string, secretKey:Buffer, identifier:string);
+  /**
    * @param macaroon macaroon to modify
    */
   constructor(macaroon:Macaroon);
-  constructor(arg1:any, secretKey?:string, identifier?:string) {
+  constructor(arg1:any, secretKey?:any, identifier?:string) {
     if (typeof arg1 === 'string') {
-      this.macaroon = this.computeMacaroon_with_keystring(arg1, secretKey, identifier);
+      if (typeof secretKey !== 'string' && !(secretKey instanceof Buffer)) {
+        throw new Error("The secret key has to be a simple string or an instance of Buffer.");
+      }
+      this.macaroon = this.computeMacaroon(arg1, secretKey, identifier);
     } else {
       this.macaroon = arg1;
     }
@@ -69,11 +78,19 @@ class MacaroonsBuilder {
 
   /**
    * @param location   location
-   * @param secretKey  secretKey
+   * @param secretKey  a secret string
    * @param identifier identifier
    * @return {@link Macaroon}
    */
-  public static create(location:string, secretKey:string, identifier:string):Macaroon {
+  public static create(location:string, secretKey:string, identifier:string):Macaroon;
+  /**
+   * @param location   location
+   * @param secretKey  a Buffer containing a secret
+   * @param identifier identifier
+   * @return {@link Macaroon}
+   */
+  public static create(location:string, secretKey:Buffer, identifier:string):Macaroon;
+  public static create(location:string, secretKey:any, identifier:string):Macaroon {
     return new MacaroonsBuilder(location, secretKey, identifier).getMacaroon();
   }
 
@@ -144,12 +161,13 @@ class MacaroonsBuilder {
     return this;
   }
 
-  private computeMacaroon_with_keystring(location:string, secretKey:string, identifier:string):Macaroon {
-    return this.computeMacaroon(location, CryptoTools.generate_derived_key(secretKey), identifier);
-  }
-
-  private computeMacaroon(location:string, secretKey:Buffer, identifier:string):Macaroon {
-    var signature:Buffer = CryptoTools.macaroon_hmac(secretKey, identifier);
+  private computeMacaroon(location:string, secretKey:Buffer, identifier:string):Macaroon;
+  private computeMacaroon(location:string, secretKey:string, identifier:string):Macaroon;
+  private computeMacaroon(location:string, key:any, identifier:string):Macaroon {
+    if (typeof key === 'string') {
+      key = CryptoTools.generate_derived_key(key);
+    }
+    var signature:Buffer = CryptoTools.macaroon_hmac(key, identifier);
     return new Macaroon(location, identifier, signature);
   }
 

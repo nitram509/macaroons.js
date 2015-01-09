@@ -9,10 +9,16 @@ declare class MacaroonsBuilder {
     private macaroon;
     /**
      * @param location   location
-     * @param secretKey  secretKey this secret will be enhanced, in case it's shorter than {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH}
+     * @param secretKey  a string this secret will be enhanced, in case it's shorter than {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH}
      * @param identifier identifier
      */
     constructor(location: string, secretKey: string, identifier: string);
+    /**
+     * @param location   location
+     * @param secretKey  a Buffer, that will be used, a minimum length of {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH} is highly recommended
+     * @param identifier identifier
+     */
+    constructor(location: string, secretKey: Buffer, identifier: string);
     /**
      * @param macaroon macaroon to modify
      */
@@ -28,11 +34,18 @@ declare class MacaroonsBuilder {
     getMacaroon(): Macaroon;
     /**
      * @param location   location
-     * @param secretKey  secretKey
+     * @param secretKey  a secret string
      * @param identifier identifier
      * @return {@link Macaroon}
      */
     static create(location: string, secretKey: string, identifier: string): Macaroon;
+    /**
+     * @param location   location
+     * @param secretKey  a Buffer containing a secret
+     * @param identifier identifier
+     * @return {@link Macaroon}
+     */
+    static create(location: string, secretKey: Buffer, identifier: string): Macaroon;
     /**
      * @param serializedMacaroon serializedMacaroon
      * @return {@link Macaroon}
@@ -59,6 +72,6 @@ declare class MacaroonsBuilder {
      * @throws Error
      */
     prepare_for_request(macaroon: Macaroon): MacaroonsBuilder;
-    private computeMacaroon_with_keystring(location, secretKey, identifier);
+    private computeMacaroon(location, secretKey, identifier);
     private computeMacaroon(location, secretKey, identifier);
 }

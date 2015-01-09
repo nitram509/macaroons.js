@@ -42,8 +42,18 @@ class MacaroonsVerifier {
     this.macaroon = macaroon;
   }
 
-  public assertIsValid(secret:string):void {
-    var secretBuffer = CryptoTools.generate_derived_key(secret);
+  /**
+   * @param secret string this secret will be enhanced, in case it's shorter than {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH}
+   * @throws Error if macaroon isn't valid
+   */
+  public assertIsValid(secret:string):void;
+  /**
+   * @param secret a Buffer, that will be used, a minimum length of {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH} is highly recommended
+   * @throws Error if macaroon isn't valid
+   */
+  public assertIsValid(secret:Buffer):void;
+  public assertIsValid(secret:any):void {
+    var secretBuffer = (secret instanceof Buffer) ? secret : CryptoTools.generate_derived_key(secret);
     var result = this.isValid_verify_raw(this.macaroon, secretBuffer);
     if (result.fail) {
       var msg = result.failMessage != null ? result.failMessage : "This macaroon isn't valid.";
@@ -52,11 +62,17 @@ class MacaroonsVerifier {
   }
 
   /**
-   * @param secret secret this secret will be enhanced, in case it's shorter than {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH}
+   * @param secret string this secret will be enhanced, in case it's shorter than {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH}
    * @return true/false if the macaroon is valid
    */
-  public isValid(secret:string):boolean {
-    var secretBuffer = CryptoTools.generate_derived_key(secret);
+  public isValid(secret:string):boolean;
+  /**
+   * @param secret a Buffer, that will be used, a minimum length of {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH} is highly recommended
+   * @return true/false if the macaroon is valid
+   */
+  public isValid(secret:Buffer):boolean;
+  public isValid(secret:any):boolean {
+    var secretBuffer = (secret instanceof Buffer) ? secret : CryptoTools.generate_derived_key(secret);
     return !this.isValid_verify_raw(this.macaroon, secretBuffer).fail;
   }
 
@@ -111,7 +127,7 @@ class MacaroonsVerifier {
     return this;
   }
 
-  private  isValid_verify_raw(M:Macaroon, secret:Buffer):VerificationResult {
+  private isValid_verify_raw(M:Macaroon, secret:Buffer):VerificationResult {
     var vresult = this.macaroon_verify_inner(M, secret);
     if (!vresult.fail) {
       vresult.fail = !BufferTools.equals(vresult.csig, this.macaroon.signatureBuffer);

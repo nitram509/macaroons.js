@@ -11,12 +11,26 @@ declare class MacaroonsVerifier {
     private generalCaveatVerifiers;
     private macaroon;
     constructor(macaroon: Macaroon);
+    /**
+     * @param secret string this secret will be enhanced, in case it's shorter than {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH}
+     * @throws Error if macaroon isn't valid
+     */
     assertIsValid(secret: string): void;
     /**
-     * @param secret secret this secret will be enhanced, in case it's shorter than {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH}
+     * @param secret a Buffer, that will be used, a minimum length of {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH} is highly recommended
+     * @throws Error if macaroon isn't valid
+     */
+    assertIsValid(secret: Buffer): void;
+    /**
+     * @param secret string this secret will be enhanced, in case it's shorter than {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH}
      * @return true/false if the macaroon is valid
      */
     isValid(secret: string): boolean;
+    /**
+     * @param secret a Buffer, that will be used, a minimum length of {@link MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH} is highly recommended
+     * @return true/false if the macaroon is valid
+     */
+    isValid(secret: Buffer): boolean;
     /**
      * Caveats like these are called "exact caveats" because there is exactly one way
      * to satisfy them.  Either the given caveat matches, or it doesn't.  At
