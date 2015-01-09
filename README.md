@@ -62,6 +62,13 @@ sys.puts(macaroon.inspect());
 // > signature e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f
 ````
 
+You may use a Buffer object instead of string to create a macaroon. This yields in better performance.
+
+````Javascript
+var secretKey = new Buffer("39a630867921b61522892779c659934667606426402460f913c9171966e97775", 'hex');
+var macaroon = MacaroonsBuilder.create(location, secretKey, identifier);
+````
+
 
 Serializing
 ----------------------------------
@@ -108,6 +115,12 @@ var valid = verifier.isValid(secret);
 // > true
 ````
 
+You may use a Buffer object instead of string to verify the macaroon. This yields in better performance.
+
+````Javascript
+var secret = new Buffer("39a630867921b61522892779c659934667606426402460f913c9171966e97775", 'hex');
+var valid = verifier.isValid(secret);
+````
 
 Adding Caveats
 -----------------------------------
@@ -343,4 +356,24 @@ secret keys should contain.  Any shorter is wasting an opportunity for security.
 
 ````Javascript
 var MACAROON_SUGGESTED_SECRET_LENGTH = require('macaroons.js').MacaroonsConstants.MACAROON_SUGGESTED_SECRET_LENGTH; // == 32
+````
+
+
+Performance
+--------------
+
+There's a little micro benchmark, which demonstrates the performance of macaroons.js
+
+Source: https://gist.github.com/nitram509/35b3570edfd9144f37e5
+
+Environment: Windows 8.1 64bit, Node.js v0.10.34 64bit, Intel i7-4790 @3.60GHz
+
+````text
+Results
+----------
+macaroons.js benchmark:
+serialize with secret string x 47,210 ops/sec ±1.48% (93 runs sampled)
+serialize with secret Buffer x 61,923 ops/sec ±1.29% (94 runs sampled)
+de-serialize and verify with secret string x 64,655 ops/sec ±1.29% (93 runs sampled)
+de-serialize and verify with secret Buffer x 93,117 ops/sec ±1.34% (94 runs sampled)
 ````
