@@ -43,14 +43,14 @@ class MacaroonsDeSerializer {
       } else if (MacaroonsDeSerializer.bytesStartWith(packet.data, MacaroonsConstants.IDENTIFIER_BYTES)) {
         identifier = MacaroonsDeSerializer.parsePacket(packet, MacaroonsConstants.IDENTIFIER_BYTES);
       } else if (MacaroonsDeSerializer.bytesStartWith(packet.data, MacaroonsConstants.CID_BYTES)) {
-        //String s = parsePacket(packet, MacaroonsConstants.CID_BYTES);
-        //caveats.add(new CaveatPacket(Type.cid, s));
+        var s = MacaroonsDeSerializer.parsePacket(packet, MacaroonsConstants.CID_BYTES);
+        caveats.push(new CaveatPacket(CaveatPacketType.cid, s));
       } else if (MacaroonsDeSerializer.bytesStartWith(packet.data, MacaroonsConstants.CL_BYTES)) {
-        //String s = parsePacket(packet, MacaroonsConstants.CL_BYTES);
-        //caveats.add(new CaveatPacket(Type.cl, s));
+        var s = MacaroonsDeSerializer.parsePacket(packet, MacaroonsConstants.CL_BYTES);
+        caveats.push(new CaveatPacket(CaveatPacketType.cl, s));
       } else if (MacaroonsDeSerializer.bytesStartWith(packet.data, MacaroonsConstants.VID_BYTES)) {
-        //byte[] raw = parseRawPacket(packet, MacaroonsConstants.VID_BYTES);
-        //caveats.add(new CaveatPacket(Type.vid, raw));
+        var raw = MacaroonsDeSerializer.parseRawPacket(packet, MacaroonsConstants.VID_BYTES);
+        caveats.push(new CaveatPacket(CaveatPacketType.vid, raw));
       } else if (MacaroonsDeSerializer.bytesStartWith(packet.data, MacaroonsConstants.SIGNATURE_BYTES)) {
         signature = MacaroonsDeSerializer.parseSignature(packet, MacaroonsConstants.SIGNATURE_BYTES);
       }
