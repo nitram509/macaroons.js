@@ -23,6 +23,8 @@ import Macaroon = require('../../main/ts/Macaroon');
 import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
 import MacaroonsSerializer = require('../../main/ts/MacaroonsSerializer');
 import MacaroonsDeSerializer = require('../../main/ts/MacaroonsDeSerializer');
+import CaveatPacketType = require('../../main/ts/CaveatPacketType');
+import Base64Tools = require('../../main/ts/Base64Tools');
 
 describe('MacaroonDeSerializerTest', function () {
 
@@ -39,6 +41,31 @@ describe('MacaroonDeSerializerTest', function () {
 
     expect(m.identifier).to.be(deserialized.identifier);
     expect(m.location).to.be(deserialized.location);
+    expect(m.signature).to.be(deserialized.signature);
+  });
+
+  it("a macaroon with caveats can be de-serialized", function () {
+
+    var m:Macaroon = new MacaroonsBuilder(location, secret, identifier)
+      .add_first_party_caveat("test = first_party")
+      .add_third_party_caveat("third_party_location", "third_party_key", "test = third_party")
+      .getMacaroon();
+    var serialized = m.serialize();
+
+    var vidAsBase64 = new Buffer(Base64Tools.transformBase64UrlSafe2Base64("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANLvrJ16nNUxLJ18zzy+kqCJ3dX2JTjTWl4c/F1aFDVWUgQ5W3Klk3eC7SoOU7acF"), 'base64');
+
+    var deserialized:Macaroon = MacaroonsDeSerializer.deserialize(serialized);
+
+    expect(m.identifier).to.be(deserialized.identifier);
+    expect(m.location).to.be(deserialized.location);
+    expect(m.caveatPackets[0].type).to.be(CaveatPacketType.cid);
+    expect(m.caveatPackets[0].getValueAsText()).to.be("test = first_party");
+    expect(m.caveatPackets[1].type).to.be(CaveatPacketType.cid);
+    expect(m.caveatPackets[1].getValueAsText()).to.be("test = third_party");
+    expect(m.caveatPackets[2].type).to.be(CaveatPacketType.vid);
+    expect(m.caveatPackets[2].getRawValue().toString('base64')).to.be(vidAsBase64.toString('base64'));
+    expect(m.caveatPackets[3].type).to.be(CaveatPacketType.cl);
+    expect(m.caveatPackets[3].getValueAsText()).to.be('third_party_location');
     expect(m.signature).to.be(deserialized.signature);
   });
 
