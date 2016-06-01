@@ -15,6 +15,7 @@
  */
 
 module.exports = {
+  "MacaroonsConstants" : require('./lib/MacaroonsConstants'),
   "MacaroonsBuilder" : require('./lib/MacaroonsBuilder'),
   "MacaroonsVerifier" : require('./lib/MacaroonsVerifier'),
   "MacaroonsSerializer" : require('./lib/MacaroonsSerializer'),
