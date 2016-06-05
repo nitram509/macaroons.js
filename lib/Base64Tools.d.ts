@@ -1,4 +1,4 @@
-/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../../src/typings/tsd.d.ts" />
 export = Base64Tools;
 declare class Base64Tools {
     private static BASE64_PADDING;

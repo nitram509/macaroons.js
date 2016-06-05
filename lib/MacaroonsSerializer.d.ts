@@ -1,4 +1,4 @@
-/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../../src/typings/tsd.d.ts" />
 import Macaroon = require('./Macaroon');
 export = MacaroonsSerializer;
 declare class MacaroonsSerializer {

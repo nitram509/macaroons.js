@@ -1,4 +1,4 @@
-/// <reference path="../../typings/tsd.d.ts" />
+/// <reference path="../../src/typings/tsd.d.ts" />
 import ThirdPartyPacket = require('./ThirdPartyPacket');
 export = CryptoTools;
 declare class CryptoTools {
