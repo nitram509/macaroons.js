@@ -378,3 +378,27 @@ de-serialize and verify with secret string x 64,655 ops/sec ±1.29% (93 runs sam
 de-serialize and verify with secret Buffer x 93,117 ops/sec ±1.34% (94 runs sampled)
 ````
 
+
+Known issues
+----------------
+
+### incompatibility to Node.js v0.12
+
+Macaroons.js was developed using Node.js v01.12.
+All tests run fine, what you can see at Travis-CI build log
+[macaroons.js job#53.1](https://travis-ci.org/nitram509/macaroons.js/jobs/61749295).
+
+After one year of no commits, suddenly the same tests fail, see build log
+[macaroons.js job#55.1](https://travis-ci.org/nitram509/macaroons.js/jobs/135430053).
+
+Interestingly, on my local machine, using Node.js v0.12.4 (same as failing on Travis)
+all tests still run fine.
+This leads me to the conclusion that something inside my ```node_modules``` folder
+is responsible for successful test results. To verify this thesis, I deleted the projects
+```node_modules``` folder and did ```npm install``` again.
+After that, my my local Node.js v0.12.4 also fails to run the tests (same as on Travis-CI).
+But if I use Node.js 4.4+, the test run fine again :-/
+
+*Conclusion*: Some of the downstream dependencies infer with the installed Node.js version.
+Right now I'm too lazy to find the root cause and keep v.0.12.4 compatibility for Macaroons.js.
+The simplest "solution" is to use an up-to-date Node.js runtime version ;-)
