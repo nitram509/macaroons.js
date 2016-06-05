@@ -377,3 +377,4 @@ serialize with secret Buffer x 61,923 ops/sec ±1.29% (94 runs sampled)
 de-serialize and verify with secret string x 64,655 ops/sec ±1.29% (93 runs sampled)
 de-serialize and verify with secret Buffer x 93,117 ops/sec ±1.34% (94 runs sampled)
 ````
+
