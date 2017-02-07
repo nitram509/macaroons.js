@@ -29,7 +29,7 @@ class CaveatPacket {
   constructor(type:CaveatPacketType, valueAsText:string);
   constructor(type:CaveatPacketType, valueAsBuffer:Buffer);
   constructor(type:CaveatPacketType, value:any) {
-    if (typeof value === 'undefinded') throw new Error("Missing second parameter 'value' from type 'string' or 'Buffer'");
+    if (typeof value === 'undefined') throw new Error("Missing second parameter 'value' from type 'string' or 'Buffer'");
 
     //assert type != null;
     //assert rawValue != null;
