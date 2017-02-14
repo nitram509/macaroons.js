@@ -27,7 +27,7 @@
     "name": "Martin W. Kirst",
     "url": "https://twitter.com/nitram509"
   },
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/nitram509/macaroons.js/issues"
   },
