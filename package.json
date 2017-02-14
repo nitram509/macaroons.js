@@ -1,6 +1,6 @@
 {
   "name": "macaroons.js",
-  "version": "0.3.7",
+  "version": "0.3.8",
   "description": "Javascript implementation of Macaroons: Cookies with Contextual Caveats for Decentralized Authorization in the Cloud.",
   "readmeFilename": "README.md",
   "main": "index.js",
