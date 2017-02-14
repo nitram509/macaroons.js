@@ -13,7 +13,7 @@ module.exports = function (grunt) {
             options: {
               module: 'commonjs',
               target: 'es5',
-              basePath: 'src/main/ts/',
+              rootDir : 'src/main/ts/',
               sourceMap: false,
               declaration: true
             }
@@ -24,7 +24,7 @@ module.exports = function (grunt) {
             options: {
               module: 'commonjs',
               target: 'es5',
-              basePath: 'src',
+              rootDir : 'src',
               sourceMap: true,
               declaration: true
             }
