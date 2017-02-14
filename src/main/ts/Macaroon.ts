@@ -18,7 +18,7 @@ export = Macaroon;
 import CaveatPacket = require('./CaveatPacket');
 import CaveatPacketType = require('./CaveatPacketType');
 import MacaroonsSerializer = require('./MacaroonsSerializer');
-import MacaroonsContants = require('./MacaroonsConstants');
+import MacaroonsConstants = require('./MacaroonsConstants');
 
 /**
  * <p>
@@ -59,7 +59,7 @@ class Macaroon {
   }
 
   private createKeyValuePacket(type:CaveatPacketType, value:string):string {
-    return value != null ? CaveatPacketType[type] + MacaroonsContants.KEY_VALUE_SEPARATOR_STR + value + MacaroonsContants.LINE_SEPARATOR_STR : "";
+    return value != null ? CaveatPacketType[type] + MacaroonsConstants.KEY_VALUE_SEPARATOR_STR + value + MacaroonsConstants.LINE_SEPARATOR_STR : "";
   }
 
   private createCaveatsPackets(caveats:Array<CaveatPacket>):string {

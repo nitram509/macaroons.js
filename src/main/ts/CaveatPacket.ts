@@ -15,7 +15,7 @@
  */
 
 import CaveatPacketType = require('./CaveatPacketType');
-import MacaroonsContants = require('./MacaroonsConstants');
+import MacaroonsConstants = require('./MacaroonsConstants');
 import Base64Tools = require('./Base64Tools');
 
 export = CaveatPacket;
@@ -29,13 +29,13 @@ class CaveatPacket {
   constructor(type:CaveatPacketType, valueAsText:string);
   constructor(type:CaveatPacketType, valueAsBuffer:Buffer);
   constructor(type:CaveatPacketType, value:any) {
-    if (typeof value === 'undefinded') throw new Error("Missing second parameter 'value' from type 'string' or 'Buffer'");
+    if (typeof value === 'undefined') throw new Error("Missing second parameter 'value' from type 'string' or 'Buffer'");
 
     //assert type != null;
     //assert rawValue != null;
     this.type = type;
     if (typeof value === 'string') {
-      this.rawValue = new Buffer(value, MacaroonsContants.IDENTIFIER_CHARSET);
+      this.rawValue = new Buffer(value, MacaroonsConstants.IDENTIFIER_CHARSET);
     } else {
       //assert type != Type.vid : "VIDs should be used as raw bytes, because otherwise UTF8 string encoder would break it";
       this.rawValue = value;
@@ -50,7 +50,7 @@ class CaveatPacket {
     if (this.valueAsText == null) {
       this.valueAsText = (this.type == CaveatPacketType.vid)
           ? Base64Tools.encodeBase64UrlSafe(this.rawValue.toString('base64'))
-          : this.rawValue.toString(MacaroonsContants.IDENTIFIER_CHARSET);
+          : this.rawValue.toString(MacaroonsConstants.IDENTIFIER_CHARSET);
     }
     return this.valueAsText;
   }
