@@ -72,7 +72,8 @@ var macaroon = MacaroonsBuilder.create(location, secretKey, identifier);
 Serializing
 ----------------------------------
 
-Macaroons are serialized, using Base64 URL safe encoding [RFC 4648](http://www.ietf.org/rfc/rfc4648.txt).
+Macaroons are serialized, using 'base64url' encoding, as defined in [RFC 4648](http://www.ietf.org/rfc/rfc4648.txt).
+(Hint: this is a special variant that uses URL safe symbols, which regular base64 parser will most likely fail to read.)
 This way you can very easily append it to query string within URIs.
 
 ````Javascript
