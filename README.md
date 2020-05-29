@@ -402,3 +402,9 @@ But if I use Node.js 4.4+, the test run fine again :-/
 *Conclusion*: Some of the downstream dependencies infer with the installed Node.js version.
 Right now I'm too lazy to find the root cause and keep v.0.12.4 compatibility for Macaroons.js.
 The simplest "solution" is to use an up-to-date Node.js runtime version ;-)
+
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/nitram509/macaroons.js.svg)](https://starchart.cc/nitram509/macaroons.js)
+
