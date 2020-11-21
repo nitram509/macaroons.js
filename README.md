@@ -26,11 +26,17 @@ Build Status
 --------------------
 
 [![Build Status](https://travis-ci.org/nitram509/jmacaroons.svg?branch=master)](https://travis-ci.org/nitram509/macaroons.js)
-[![devDependency Status](https://david-dm.org/nitram509/macaroons.js.png)](https://david-dm.org/nitram509/macaroons.js)
-[![devDependency Status](https://david-dm.org/nitram509/macaroons.js/dev-status.png)](https://david-dm.org/nitram509/macaroons.js#info=devDependencies)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 [![NPM](https://nodei.co/npm/macaroons.js.png)](https://nodei.co/npm/macaroons.js/)
+
+Code Coverage
+--------------------
+
+| Statements                | Branches                | Functions                | Lines                |
+| ------------------------- | ----------------------- | ------------------------ | -------------------- |
+| ![Statements](./coverage/badge-statements.svg) | ![Branches](./coverage/badge-branches.svg) | ![Functions](./coverage/badge-functions.svg) | ![Lines](./coverage/badge-lines.svg) |
+
 
 Community & Badges
 --------------------

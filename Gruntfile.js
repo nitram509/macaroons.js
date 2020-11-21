@@ -61,6 +61,12 @@ module.exports = function (grunt) {
             args: [
               'jest'
             ]
+          },
+          badges: {
+            cmd: 'npx',
+            args: [
+              'jest-coverage-badges'
+            ]
           }
         }
 
@@ -76,6 +82,6 @@ module.exports = function (grunt) {
   // Default task(s).
   grunt.registerTask('default', ['ts:main', 'copy']);
   grunt.registerTask('test', ['ts:test', 'run:jest']);
-  grunt.registerTask('package', ['clean', 'ts:main', 'ts:test', 'run:jest', 'copy']);
+  grunt.registerTask('package', ['clean', 'ts:main', 'ts:test', 'run:jest', 'run:badges', 'copy']);
 
 };
