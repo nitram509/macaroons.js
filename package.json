@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npx grunt",
     "test": "npx grunt test",
-    "before_deploy": "npx grunt clean default"
+    "before_deploy": "npx grunt package"
   },
   "repository": {
     "type": "git",
