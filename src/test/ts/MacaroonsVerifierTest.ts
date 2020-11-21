@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-/// <reference path="../../typings/tsd.d.ts" />
-
 declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
 var expect = require('expect.js');
 
@@ -28,7 +26,7 @@ describe('MacaroonsVerifierTest', function () {
 
   var location = 'http://mybank/';
   var secret:any = 'this is our super secret key; only we should know it';
-  var secretBytes = new Buffer('a96173391e6bfa0356bbf095621b8af1510968e770e4d27d62109b7dc374814b', 'hex');
+  var secretBytes = Buffer.from('a96173391e6bfa0356bbf095621b8af1510968e770e4d27d62109b7dc374814b', 'hex');
   var identifier = 'we used our secret key';
 
 
@@ -41,7 +39,7 @@ describe('MacaroonsVerifierTest', function () {
 
 
   it("verify a valid Macaroon with secret Buffer", function () {
-    secret = new Buffer(secret, 'ascii');
+    secret = Buffer.from(secret, 'ascii');
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
     var verifier = new MacaroonsVerifier(m);
 
@@ -58,7 +56,7 @@ describe('MacaroonsVerifierTest', function () {
 
 
   it("verify a valid Macaroon with assertion with secret Buffer", function () {
-    secret = new Buffer(secret, 'ascii');
+    secret = Buffer.from(secret, 'ascii');
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
     var verifier = new MacaroonsVerifier(m);
 

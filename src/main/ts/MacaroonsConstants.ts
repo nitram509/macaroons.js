@@ -59,22 +59,22 @@ class MacaroonsConstants {
   public static VID_NONCE_KEY_SZ:number = MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES + MacaroonsConstants.MACAROON_HASH_BYTES + MacaroonsConstants.SECRET_BOX_OVERHEAD;
 
   public static LOCATION:string = "location";
-  public static LOCATION_BYTES:Buffer = new Buffer(MacaroonsConstants.LOCATION, 'ascii');
+  public static LOCATION_BYTES:Buffer = Buffer.from(MacaroonsConstants.LOCATION, 'ascii');
 
   public static IDENTIFIER:string = "identifier";
-  public static IDENTIFIER_BYTES:Buffer = new Buffer(MacaroonsConstants.IDENTIFIER, 'ascii');
+  public static IDENTIFIER_BYTES:Buffer = Buffer.from(MacaroonsConstants.IDENTIFIER, 'ascii');
 
   public static SIGNATURE:string = "signature";
-  public static SIGNATURE_BYTES:Buffer = new Buffer(MacaroonsConstants.SIGNATURE, 'ascii');
+  public static SIGNATURE_BYTES:Buffer = Buffer.from(MacaroonsConstants.SIGNATURE, 'ascii');
 
   public static CID:string = "cid";
-  public static CID_BYTES:Buffer = new Buffer(MacaroonsConstants.CID, 'ascii');
+  public static CID_BYTES:Buffer = Buffer.from(MacaroonsConstants.CID, 'ascii');
 
   public static VID:string = "vid";
-  public static VID_BYTES:Buffer = new Buffer(MacaroonsConstants.VID, 'ascii');
+  public static VID_BYTES:Buffer = Buffer.from(MacaroonsConstants.VID, 'ascii');
 
   public static CL:string = "cl";
-  public static CL_BYTES:Buffer = new Buffer(MacaroonsConstants.CL, 'ascii');
+  public static CL_BYTES:Buffer = Buffer.from(MacaroonsConstants.CL, 'ascii');
 
   public static LINE_SEPARATOR_STR:string = '\n';
   public static LINE_SEPARATOR:number = MacaroonsConstants.LINE_SEPARATOR_STR.charCodeAt(0);
@@ -84,5 +84,5 @@ class MacaroonsConstants {
   public static KEY_VALUE_SEPARATOR:number = MacaroonsConstants.KEY_VALUE_SEPARATOR_STR.charCodeAt(0);
   public static KEY_VALUE_SEPARATOR_LEN:number = 1;
 
-  public static IDENTIFIER_CHARSET:string = "utf8";
+  public static IDENTIFIER_CHARSET:BufferEncoding = "utf8";
 }

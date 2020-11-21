@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-/// <reference path="../../typings/tsd.d.ts" />
-
 declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
 var expect = require('expect.js');
 
@@ -40,7 +38,7 @@ describe('MacaroonBuilderTest', function () {
 
   it("create a Macaroon and verify signature location and identfier using secret Buffer ", function () {
 
-    var m = new MacaroonsBuilder(location, new Buffer(secret,'ascii'), identifier).getMacaroon();
+    var m = new MacaroonsBuilder(location, Buffer.from(secret,'ascii'), identifier).getMacaroon();
 
     expect(m.location).to.be(location);
     expect(m.identifier).to.be(identifier);
@@ -58,7 +56,7 @@ describe('MacaroonBuilderTest', function () {
 
   it("create a Macaroon with static helper function using secret Buffer", function () {
 
-    var m = MacaroonsBuilder.create(location, new Buffer(secret,'ascii'), identifier);
+    var m = MacaroonsBuilder.create(location, Buffer.from(secret,'ascii'), identifier);
 
     expect(m.location).to.be(location);
     expect(m.identifier).to.be(identifier);

@@ -35,7 +35,7 @@ class CaveatPacket {
     //assert rawValue != null;
     this.type = type;
     if (typeof value === 'string') {
-      this.rawValue = new Buffer(value, MacaroonsConstants.IDENTIFIER_CHARSET);
+      this.rawValue = Buffer.from(value as string, MacaroonsConstants.IDENTIFIER_CHARSET);
     } else {
       //assert type != Type.vid : "VIDs should be used as raw bytes, because otherwise UTF8 string encoder would break it";
       this.rawValue = value;

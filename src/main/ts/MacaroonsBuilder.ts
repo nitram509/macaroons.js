@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-/// <reference path="../../typings/tsd.d.ts" />
-
 import CaveatPacket = require('./CaveatPacket');
 import CaveatPacketType = require('./CaveatPacketType');
 import Macaroon = require('./Macaroon');
@@ -52,10 +50,11 @@ class MacaroonsBuilder {
   constructor(macaroon:Macaroon);
   constructor(arg1:any, secretKey?:any, identifier?:string) {
     if (typeof arg1 === 'string') {
-      if (typeof secretKey !== 'string' && !(secretKey instanceof Buffer)) {
+      if (typeof secretKey === 'string' || secretKey instanceof Buffer) {
+        this.macaroon = this.computeMacaroon(arg1, secretKey as string, identifier);
+      } else {
         throw new Error("The secret key has to be a simple string or an instance of Buffer.");
       }
-      this.macaroon = this.computeMacaroon(arg1, secretKey, identifier);
     } else {
       this.macaroon = arg1;
     }
@@ -110,7 +109,7 @@ class MacaroonsBuilder {
    */
   public add_first_party_caveat(caveat:string):MacaroonsBuilder {
     if (caveat != null) {
-      var caveatBuffer:Buffer = new Buffer(caveat, MacaroonsConstants.IDENTIFIER_CHARSET);
+      var caveatBuffer:Buffer = Buffer.from(caveat, MacaroonsConstants.IDENTIFIER_CHARSET);
       //assert caveatBytes.length < MacaroonsConstants.MACAROON_MAX_STRLEN;
       if (this.macaroon.caveatPackets.length + 1 > MacaroonsConstants.MACAROON_MAX_CAVEATS) {
         throw new Error("Too many caveats. There are max. " + MacaroonsConstants.MACAROON_MAX_CAVEATS + " caveats allowed.");

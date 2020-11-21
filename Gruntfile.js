@@ -6,7 +6,7 @@ module.exports = function (grunt) {
       {
         pkg: grunt.file.readJSON('package.json'),
 
-        typescript: {
+        ts: {
           main: {
             src: ['src/main/ts/**/*.ts'],
             dest: 'build/node',
@@ -68,11 +68,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-typescript');
+  grunt.loadNpmTasks('grunt-ts');
   grunt.loadNpmTasks('grunt-mocha-test');
 
   // Default task(s).
   grunt.registerTask('default', ['typescript:main', 'copy']);
-  grunt.registerTask('test', ['typescript:test', 'mochaTest']);
+  grunt.registerTask('test', ['ts:test', 'mochaTest']);
 
 };

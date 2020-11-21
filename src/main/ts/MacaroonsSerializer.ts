@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-/// <reference path="../../typings/tsd.d.ts" />
-
 import Macaroon = require('./Macaroon');
 import CaveatPacket = require('./CaveatPacket');
 import CaveatPacketType = require('./CaveatPacketType');
@@ -44,20 +42,20 @@ class MacaroonsSerializer {
   }
 
   private static serialize_packet(type:CaveatPacketType, data:string):Buffer {
-    return MacaroonsSerializer.serialize_packet_buf(type, new Buffer(data, MacaroonsConstants.IDENTIFIER_CHARSET));
+    return MacaroonsSerializer.serialize_packet_buf(type, Buffer.from(data, MacaroonsConstants.IDENTIFIER_CHARSET));
   }
 
   private static serialize_packet_buf(type:CaveatPacketType, data:Buffer):Buffer {
     var typname = CaveatPacketType[type];
     var packet_len = MacaroonsConstants.PACKET_PREFIX_LENGTH + typname.length + MacaroonsConstants.KEY_VALUE_SEPARATOR_LEN + data.length + MacaroonsConstants.LINE_SEPARATOR_LEN;
-    var packet = new Buffer(packet_len);
+    var packet = Buffer.alloc(packet_len);
     packet.fill(0);
     var offset = 0;
 
     MacaroonsSerializer.packet_header(packet_len).copy(packet, 0, 0);
     offset += MacaroonsConstants.PACKET_PREFIX_LENGTH;
 
-    new Buffer(typname, 'ascii').copy(packet, offset, 0);
+    Buffer.from(typname, 'ascii').copy(packet, offset, 0);
     offset += typname.length;
 
     packet[offset] = MacaroonsConstants.KEY_VALUE_SEPARATOR;
@@ -73,7 +71,7 @@ class MacaroonsSerializer {
   private static packet_header(size:number):Buffer {
     // assert.ok(size < 65536, "size < 65536");
     var size = (size & 0xffff);
-    var packet = new Buffer(MacaroonsConstants.PACKET_PREFIX_LENGTH);
+    var packet = Buffer.alloc(MacaroonsConstants.PACKET_PREFIX_LENGTH);
     packet[0] = MacaroonsSerializer.HEX[(size >> 12) & 15];
     packet[1] = MacaroonsSerializer.HEX[(size >> 8) & 15];
     packet[2] = MacaroonsSerializer.HEX[(size >> 4) & 15];
@@ -86,7 +84,7 @@ class MacaroonsSerializer {
     for (var i = 0; i < bufs.length; i++) {
       size += bufs[i].length;
     }
-    var result = new Buffer(size);
+    var result = Buffer.alloc(size);
     size = 0;
     for (i = 0; i < bufs.length; i++) {
       bufs[i].copy(result, size, 0);

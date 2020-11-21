@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-/// <reference path="../../typings/tsd.d.ts" />
-
 import CaveatPacket = require('./CaveatPacket');
 import CaveatPacketType = require('./CaveatPacketType');
 import Macaroon = require('./Macaroon');
 import MacaroonsConstants = require('./MacaroonsConstants');
 import BufferTools = require('./BufferTools');
-import MacaroonsDeSerializer = require('./MacaroonsDeSerializer');
 import CryptoTools = require('./CryptoTools');
 
 export = MacaroonsVerifier;
@@ -173,8 +170,8 @@ class MacaroonsVerifier {
 
   private macaroon_verify_inner_3rd(M:Macaroon, C:CaveatPacket, sig:Buffer):boolean {
     if (!M) return false;
-    var enc_plaintext = new Buffer(MacaroonsConstants.MACAROON_SECRET_TEXT_ZERO_BYTES + MacaroonsConstants.MACAROON_HASH_BYTES);
-    var enc_ciphertext = new Buffer(MacaroonsConstants.MACAROON_HASH_BYTES + MacaroonsConstants.SECRET_BOX_OVERHEAD);
+    var enc_plaintext = Buffer.alloc(MacaroonsConstants.MACAROON_SECRET_TEXT_ZERO_BYTES + MacaroonsConstants.MACAROON_HASH_BYTES);
+    var enc_ciphertext = Buffer.alloc(MacaroonsConstants.MACAROON_HASH_BYTES + MacaroonsConstants.SECRET_BOX_OVERHEAD);
     enc_plaintext.fill(0);
     enc_ciphertext.fill(0);
 
@@ -184,7 +181,7 @@ class MacaroonsVerifier {
      * the nonce is in the first MACAROON_SECRET_NONCE_BYTES
      * of the vid; the ciphertext is in the rest of it.
      */
-    var enc_nonce = new Buffer(MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES);
+    var enc_nonce = Buffer.alloc(MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES);
     vid_data.copy(enc_nonce, 0, 0, enc_nonce.length);
 
     /* fill in the ciphertext */
@@ -199,7 +196,7 @@ class MacaroonsVerifier {
         throw new Error("Error while deciphering 3rd party caveat, msg=" + error);
       }
     }
-    var key = new Buffer(MacaroonsConstants.MACAROON_HASH_BYTES);
+    var key = Buffer.alloc(MacaroonsConstants.MACAROON_HASH_BYTES);
     key.fill(0);
     enc_plaintext.copy(key, 0, 0, MacaroonsConstants.MACAROON_HASH_BYTES);
     var vresult = this.macaroon_verify_inner(M, key);

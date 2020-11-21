@@ -64,7 +64,7 @@ sys.puts(macaroon.inspect());
 You may use a Buffer object instead of string to create a macaroon. This yields in better performance.
 
 ````Javascript
-var secretKey = new Buffer("39a630867921b61522892779c659934667606426402460f913c9171966e97775", 'hex');
+var secretKey = Buffer.from("39a630867921b61522892779c659934667606426402460f913c9171966e97775", 'hex');
 var macaroon = MacaroonsBuilder.create(location, secretKey, identifier);
 ````
 
@@ -118,7 +118,7 @@ var valid = verifier.isValid(secret);
 You may use a Buffer object instead of string to verify the macaroon. This yields in better performance.
 
 ````Javascript
-var secret = new Buffer("39a630867921b61522892779c659934667606426402460f913c9171966e97775", 'hex');
+var secret = Buffer.from("39a630867921b61522892779c659934667606426402460f913c9171966e97775", 'hex');
 var valid = verifier.isValid(secret);
 ````
 

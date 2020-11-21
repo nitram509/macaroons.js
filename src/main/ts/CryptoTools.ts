@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-/// <reference path="../../typings/tsd.d.ts" />
-
 declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
 var crypto = require('crypto');
 var nacl:any = require('ecma-nacl');
@@ -29,7 +27,9 @@ class CryptoTools {
 
   public static generate_derived_key(variableKey:string):Buffer {
     var MACAROONS_MAGIC_KEY = "macaroons-key-generator";
-    return CryptoTools.macaroon_hmac(new Buffer(MACAROONS_MAGIC_KEY, "utf-8"), new Buffer(variableKey, MacaroonsConstants.IDENTIFIER_CHARSET));
+    const magic_key = Buffer.from(MACAROONS_MAGIC_KEY, "utf-8");
+    const variable_key = Buffer.from(variableKey, MacaroonsConstants.IDENTIFIER_CHARSET);
+    return CryptoTools.macaroon_hmac(magic_key, variable_key);
   }
 
   public static macaroon_hmac(key:Buffer, message:string):Buffer;
@@ -39,7 +39,7 @@ class CryptoTools {
 
     var mac = crypto.createHmac('sha256', key);
     if (typeof message === 'string') {
-      mac.update(new Buffer(message, MacaroonsConstants.IDENTIFIER_CHARSET));
+      mac.update(Buffer.from(message, MacaroonsConstants.IDENTIFIER_CHARSET));
     } else {
       mac.update(message);
     }
@@ -47,7 +47,7 @@ class CryptoTools {
   }
 
   public static macaroon_hash2(key:Buffer, message1:Buffer, message2:Buffer):Buffer {
-    var tmp = new Buffer(2 * MacaroonsConstants.MACAROON_HASH_BYTES);
+    var tmp = Buffer.alloc(2 * MacaroonsConstants.MACAROON_HASH_BYTES);
     CryptoTools.macaroon_hmac(key, message1).copy(tmp, 0, 0, MacaroonsConstants.MACAROON_HASH_BYTES);
     CryptoTools.macaroon_hmac(key, message2).copy(tmp, MacaroonsConstants.MACAROON_HASH_BYTES, 0, MacaroonsConstants.MACAROON_HASH_BYTES);
     return CryptoTools.macaroon_hmac(key, tmp);
@@ -56,27 +56,27 @@ class CryptoTools {
   public static macaroon_add_third_party_caveat_raw(old_sig:Buffer, key:string, identifier:string):ThirdPartyPacket {
     var derived_key:Buffer = CryptoTools.generate_derived_key(key);
 
-    var enc_nonce:Buffer = new Buffer(MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES);
+    var enc_nonce:Buffer = Buffer.alloc(MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES);
     enc_nonce.fill(0);
     /* XXX get some random bytes instead */
-    var enc_plaintext:Buffer = new Buffer(MacaroonsConstants.MACAROON_HASH_BYTES);
+    var enc_plaintext:Buffer = Buffer.alloc(MacaroonsConstants.MACAROON_HASH_BYTES);
     enc_plaintext.fill(0);
     /* now encrypt the key to give us vid */
     derived_key.copy(enc_plaintext, 0, 0, MacaroonsConstants.MACAROON_HASH_BYTES);
 
     var enc_ciphertext = CryptoTools.macaroon_secretbox(old_sig, enc_nonce, enc_plaintext);
 
-    var vid:Buffer = new Buffer(MacaroonsConstants.VID_NONCE_KEY_SZ);
+    var vid:Buffer = Buffer.alloc(MacaroonsConstants.VID_NONCE_KEY_SZ);
     vid.fill(0);
     enc_nonce.copy(vid, 0, 0, MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES);
     enc_ciphertext.copy(vid, MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES, 0, MacaroonsConstants.VID_NONCE_KEY_SZ - MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES);
 
-    var new_sig:Buffer = CryptoTools.macaroon_hash2(old_sig, vid, new Buffer(identifier, MacaroonsConstants.IDENTIFIER_CHARSET));
+    var new_sig:Buffer = CryptoTools.macaroon_hash2(old_sig, vid, Buffer.from(identifier, MacaroonsConstants.IDENTIFIER_CHARSET));
     return new ThirdPartyPacket(new_sig, vid);
   }
 
   public static macaroon_bind(Msig:Buffer, MPsig:Buffer):Buffer {
-    var key:Buffer = new Buffer(MacaroonsConstants.MACAROON_HASH_BYTES);
+    var key:Buffer = Buffer.alloc(MacaroonsConstants.MACAROON_HASH_BYTES);
     key.fill(0);
     return CryptoTools.macaroon_hash2(key, Msig, MPsig);
   }

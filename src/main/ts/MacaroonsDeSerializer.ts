@@ -24,7 +24,7 @@ export = MacaroonsDeSerializer;
 class MacaroonsDeSerializer {
 
   public static deserialize(serializedMacaroon:string):Macaroon {
-    var data = new Buffer(Base64Tools.transformBase64UrlSafe2Base64(serializedMacaroon), 'base64');
+    var data = Buffer.from(Base64Tools.transformBase64UrlSafe2Base64(serializedMacaroon), 'base64');
     var minLength = MacaroonsConstants.MACAROON_HASH_BYTES + MacaroonsConstants.KEY_VALUE_SEPARATOR_LEN + MacaroonsConstants.SIGNATURE.length;
     if (data.length < minLength) {
       throw new Error("Couldn't deserialize macaroon. Not enough bytes for signature found. There have to be at least " + minLength + " bytes");
@@ -63,7 +63,7 @@ class MacaroonsDeSerializer {
   private static parseSignature(packet:Packet, signaturePacketData:Buffer):Buffer {
     var headerLen = signaturePacketData.length + MacaroonsConstants.KEY_VALUE_SEPARATOR_LEN;
     var len = Math.min(packet.data.length - headerLen, MacaroonsConstants.MACAROON_HASH_BYTES);
-    var signature = new Buffer(len);
+    var signature = Buffer.alloc(len);
     packet.data.copy(signature, 0, headerLen, headerLen + len);
     return signature;
   }
@@ -78,7 +78,7 @@ class MacaroonsDeSerializer {
   private static parseRawPacket(packet:Packet, header:Buffer):Buffer {
     var headerLen = header.length + MacaroonsConstants.KEY_VALUE_SEPARATOR_LEN;
     var len = packet.data.length - headerLen - MacaroonsConstants.LINE_SEPARATOR_LEN;
-    var raw = new Buffer(len);
+    var raw = Buffer.alloc(len);
     packet.data.copy(raw, 0, headerLen, headerLen + len);
     return raw;
   }
@@ -99,7 +99,7 @@ class MacaroonsDeSerializer {
     var size = stream.readPacketHeader();
     //assert size <= PACKET_MAX_SIZE;
 
-    var data = new Buffer(size - MacaroonsConstants.PACKET_PREFIX_LENGTH);
+    var data = Buffer.alloc(size - MacaroonsConstants.PACKET_PREFIX_LENGTH);
     var read = stream.read(data);
     if (read < 0) return null;
     if (read != data.length) {
