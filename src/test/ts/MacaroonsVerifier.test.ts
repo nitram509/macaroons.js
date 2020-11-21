@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
-var expect = require('expect.js');
-
 import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
 import MacaroonsVerifier = require('../../main/ts/MacaroonsVerifier');
-import Macaroon = require('../../main/ts/Macaroon');
 import TimestampCaveatVerifier = require('../../main/ts/verifier/TimestampCaveatVerifier');
 
 describe('MacaroonsVerifierTest', function () {
@@ -34,7 +30,7 @@ describe('MacaroonsVerifierTest', function () {
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
     var verifier = new MacaroonsVerifier(m);
 
-    expect(verifier.isValid(secret)).to.be(true);
+    expect(verifier.isValid(secret)).toEqual(true);
   });
 
 
@@ -43,7 +39,7 @@ describe('MacaroonsVerifierTest', function () {
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
     var verifier = new MacaroonsVerifier(m);
 
-    expect(verifier.isValid(secret)).to.be(true);
+    expect(verifier.isValid(secret)).toEqual(true);
   });
 
 
@@ -51,7 +47,7 @@ describe('MacaroonsVerifierTest', function () {
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
     var verifier = new MacaroonsVerifier(m);
 
-    expect(verifier.assertIsValid.bind(verifier)).withArgs(secret).to.not.throwException();
+    expect(verifier.assertIsValid(secret)).toBeUndefined();
   });
 
 
@@ -60,7 +56,7 @@ describe('MacaroonsVerifierTest', function () {
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
     var verifier = new MacaroonsVerifier(m);
 
-    expect(verifier.assertIsValid.bind(verifier)).withArgs(secret).to.not.throwException();
+    expect(verifier.assertIsValid(secret)).toBeUndefined()
   });
 
 
@@ -68,7 +64,7 @@ describe('MacaroonsVerifierTest', function () {
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
     var verifier = new MacaroonsVerifier(m);
 
-    expect(verifier.isValid("wrong secret")).to.be(false);
+    expect(verifier.isValid("wrong secret")).toEqual(false);
   });
 
 
@@ -76,7 +72,9 @@ describe('MacaroonsVerifierTest', function () {
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
     var verifier = new MacaroonsVerifier(m);
 
-    expect(verifier.assertIsValid).withArgs("wrong secret").to.throwException();
+    expect(() => {
+      verifier.assertIsValid("wrong secret")
+    }).toThrowError();
   });
 
 
@@ -86,10 +84,10 @@ describe('MacaroonsVerifierTest', function () {
         .getMacaroon();
 
     var verifier = new MacaroonsVerifier(m);
-    expect(verifier.isValid(secret)).to.be(false);
+    expect(verifier.isValid(secret)).toEqual(false);
 
     verifier.satisfyExact("account = 3735928559");
-    expect(verifier.isValid(secret)).to.be(true);
+    expect(verifier.isValid(secret)).toEqual(true);
   });
 
 
@@ -99,13 +97,13 @@ describe('MacaroonsVerifierTest', function () {
         .getMacaroon();
 
     var verifier = new MacaroonsVerifier(m);
-    expect(verifier.isValid(secret)).to.be(false);
+    expect(verifier.isValid(secret)).toEqual(false);
 
     verifier.satisfyExact("account = 3735928559");
     verifier.satisfyExact("IP = 127.0.0.1')");
     verifier.satisfyExact("browser = Chrome')");
     verifier.satisfyExact("action = deposit");
-    expect(verifier.isValid(secret)).to.be(true);
+    expect(verifier.isValid(secret)).toEqual(true);
   });
 
 
@@ -115,10 +113,10 @@ describe('MacaroonsVerifierTest', function () {
         .getMacaroon();
 
     var verifier = new MacaroonsVerifier(m);
-    expect(verifier.isValid(secret)).to.be(false);
+    expect(verifier.isValid(secret)).toEqual(false);
 
     verifier.satisfyGeneral(TimestampCaveatVerifier);
-    expect(verifier.isValid(secret)).to.be(true);
+    expect(verifier.isValid(secret)).toEqual(true);
   });
 
 });

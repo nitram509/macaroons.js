@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
-var expect = require('expect.js');
-
 import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
 import CaveatPacketType = require('../../main/ts/CaveatPacketType');
 import Base64Tools = require('../../main/ts/Base64Tools');
-
 
 describe('MacaroonsBuilder3rdPartyCaveatsTest', function () {
 
@@ -42,18 +38,18 @@ describe('MacaroonsBuilder3rdPartyCaveatsTest', function () {
         .getMacaroon();
 
 
-    expect(m.identifier).to.be(publicIdentifier);
-    expect(m.location).to.be(location);
-    expect(m.caveatPackets[0].type).to.be(CaveatPacketType.cid);
-    expect(m.caveatPackets[0].getValueAsText()).to.be("account = 3735928559");
-    expect(m.caveatPackets[1].type).to.be(CaveatPacketType.cid);
-    expect(m.caveatPackets[1].getValueAsText()).to.be(identifier);
-    expect(m.caveatPackets[2].type).to.be(CaveatPacketType.vid);
-    expect(m.caveatPackets[2].getRawValue().toString('base64')).to.be(vidAsBase64.toString('base64'));
-    expect(m.caveatPackets[3].type).to.be(CaveatPacketType.cl);
-    expect(m.caveatPackets[3].getValueAsText()).to.be('http://auth.mybank/');
-    expect(m.signature).to.be("d27db2fd1f22760e4c3dae8137e2d8fc1df6c0741c18aed4b97256bf78d1f55c");
-    expect(m.serialize()).to.be("MDAxY2xvY2F0aW9uIGh0dHA6Ly9teWJhbmsvCjAwMmNpZGVudGlmaWVyIHdlIHVzZWQgb3VyIG90aGVyIHNlY3JldCBrZXkKMDAxZGNpZCBhY2NvdW50ID0gMzczNTkyODU1OQowMDMwY2lkIHRoaXMgd2FzIGhvdyB3ZSByZW1pbmQgYXV0aCBvZiBrZXkvcHJlZAowMDUxdmlkIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANNuxQLgWIbR8CefBV-lJVTRbRbBsUB0u7g_8P3XncL-CY8O1KKwkRMOa120aiCoawowMDFiY2wgaHR0cDovL2F1dGgubXliYW5rLwowMDJmc2lnbmF0dXJlINJ9sv0fInYOTD2ugTfi2Pwd9sB0HBiu1LlyVr940fVcCg");
+    expect(m.identifier).toEqual(publicIdentifier);
+    expect(m.location).toEqual(location);
+    expect(m.caveatPackets[0].type).toEqual(CaveatPacketType.cid);
+    expect(m.caveatPackets[0].getValueAsText()).toEqual("account = 3735928559");
+    expect(m.caveatPackets[1].type).toEqual(CaveatPacketType.cid);
+    expect(m.caveatPackets[1].getValueAsText()).toEqual(identifier);
+    expect(m.caveatPackets[2].type).toEqual(CaveatPacketType.vid);
+    expect(m.caveatPackets[2].getRawValue().toString('base64')).toEqual(vidAsBase64.toString('base64'));
+    expect(m.caveatPackets[3].type).toEqual(CaveatPacketType.cl);
+    expect(m.caveatPackets[3].getValueAsText()).toEqual('http://auth.mybank/');
+    expect(m.signature).toEqual("d27db2fd1f22760e4c3dae8137e2d8fc1df6c0741c18aed4b97256bf78d1f55c");
+    expect(m.serialize()).toEqual("MDAxY2xvY2F0aW9uIGh0dHA6Ly9teWJhbmsvCjAwMmNpZGVudGlmaWVyIHdlIHVzZWQgb3VyIG90aGVyIHNlY3JldCBrZXkKMDAxZGNpZCBhY2NvdW50ID0gMzczNTkyODU1OQowMDMwY2lkIHRoaXMgd2FzIGhvdyB3ZSByZW1pbmQgYXV0aCBvZiBrZXkvcHJlZAowMDUxdmlkIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANNuxQLgWIbR8CefBV-lJVTRbRbBsUB0u7g_8P3XncL-CY8O1KKwkRMOa120aiCoawowMDFiY2wgaHR0cDovL2F1dGgubXliYW5rLwowMDJmc2lnbmF0dXJlINJ9sv0fInYOTD2ugTfi2Pwd9sB0HBiu1LlyVr940fVcCg");
   });
 
 

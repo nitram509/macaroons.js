@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
-var expect = require('expect.js');
-
 import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
 import MacaroonsVerifier = require('../../main/ts/MacaroonsVerifier');
 import TimestampCaveatVerifier = require('../../main/ts/verifier/TimestampCaveatVerifier');
-import Macaroon = require('../../main/ts/Macaroon');
-
 
 describe('MacaroonsPrepareRequestAndVerifyTest', function () {
 
@@ -42,7 +37,7 @@ describe('MacaroonsPrepareRequestAndVerifyTest', function () {
     M = new MacaroonsBuilder(location, secret, publicIdentifier)
         .add_first_party_caveat("account = 3735928559")
         .getMacaroon();
-    expect(M.signature).to.be("1434e674ad84fdfdc9bc1aa00785325c8b6d57341fc7ce200ba4680c80786dda");
+    expect(M.signature).toEqual("1434e674ad84fdfdc9bc1aa00785325c8b6d57341fc7ce200ba4680c80786dda");
 
     caveat_key = "4; guaranteed random by a fair toss of the dice";
     predicate = "user = Alice";
@@ -51,7 +46,7 @@ describe('MacaroonsPrepareRequestAndVerifyTest', function () {
     M = new MacaroonsBuilder(M)
         .add_third_party_caveat("http://auth.mybank/", caveat_key, identifier)
         .getMacaroon();
-    expect(M.signature).to.be("d27db2fd1f22760e4c3dae8137e2d8fc1df6c0741c18aed4b97256bf78d1f55c");
+    expect(M.signature).toEqual("d27db2fd1f22760e4c3dae8137e2d8fc1df6c0741c18aed4b97256bf78d1f55c");
   }
 
   function send_to_auth_and_recv_identifier(caveat_key:string, predicate:string) {
@@ -66,13 +61,13 @@ describe('MacaroonsPrepareRequestAndVerifyTest', function () {
     D = new MacaroonsBuilder("http://auth.mybank/", caveat_key, identifier)
         .add_first_party_caveat("time < 2025-01-01T00:00")
         .getMacaroon();
-    expect(D.signature).to.be("b338d11fb136c4b95c86efe146f77978cd0947585375ba4d4da4ef68be2b3e8b");
+    expect(D.signature).toEqual("b338d11fb136c4b95c86efe146f77978cd0947585375ba4d4da4ef68be2b3e8b");
 
     DP = new MacaroonsBuilder(M)
         .prepare_for_request(D)
         .getMacaroon();
 
-    expect(DP.signature).to.be("f8718cd3d2cc250344c072ea557c36a4f5a963353a5b664b0faa709e0d65ad9f");
+    expect(DP.signature).toEqual("f8718cd3d2cc250344c072ea557c36a4f5a963353a5b664b0faa709e0d65ad9f");
   }
 
 
@@ -92,7 +87,7 @@ describe('MacaroonsPrepareRequestAndVerifyTest', function () {
         .satisfy3rdParty(DP)
         .isValid(secret);
 
-    expect(valid).to.be(true);
+    expect(valid).toEqual(true);
   });
 
 
@@ -106,7 +101,7 @@ describe('MacaroonsPrepareRequestAndVerifyTest', function () {
         .satisfy3rdParty(DP)
         .isValid("wrong secret");
 
-    expect(valid).to.be(false);
+    expect(valid).toEqual(false);
   });
 
 
@@ -120,7 +115,7 @@ describe('MacaroonsPrepareRequestAndVerifyTest', function () {
         .satisfy3rdParty(D)
         .isValid(secret);
 
-    expect(valid).to.be(false);
+    expect(valid).toEqual(false);
   });
 
 
@@ -133,7 +128,7 @@ describe('MacaroonsPrepareRequestAndVerifyTest', function () {
         .satisfyGeneral(TimestampCaveatVerifier)
         .isValid(secret);
 
-    expect(valid).to.be(false);
+    expect(valid).toEqual(false);
   });
 
 });

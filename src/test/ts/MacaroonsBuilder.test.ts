@@ -14,12 +14,7 @@
  * limitations under the License.
  */
 
-declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
-var expect = require('expect.js');
-
 import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
-import Macaroon = require('../../main/ts/Macaroon');
-
 
 describe('MacaroonBuilderTest', function () {
 
@@ -31,43 +26,43 @@ describe('MacaroonBuilderTest', function () {
 
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
 
-    expect(m.location).to.be(location);
-    expect(m.identifier).to.be(identifier);
-    expect(m.signature).to.be("e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f");
+    expect(m.location).toEqual(location);
+    expect(m.identifier).toEqual(identifier);
+    expect(m.signature).toEqual("e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f");
   });
 
   it("create a Macaroon and verify signature location and identfier using secret Buffer ", function () {
 
     var m = new MacaroonsBuilder(location, Buffer.from(secret,'ascii'), identifier).getMacaroon();
 
-    expect(m.location).to.be(location);
-    expect(m.identifier).to.be(identifier);
-    expect(m.signature).to.be("5c748a4dabfd5ff2a0b5ab56120c8021912b591ac09023b4bffbc6e1b54e664f");
+    expect(m.location).toEqual(location);
+    expect(m.identifier).toEqual(identifier);
+    expect(m.signature).toEqual("5c748a4dabfd5ff2a0b5ab56120c8021912b591ac09023b4bffbc6e1b54e664f");
   });
 
   it("create a Macaroon with static helper function using secret string", function () {
 
     var m = MacaroonsBuilder.create(location, secret, identifier);
 
-    expect(m.location).to.be(location);
-    expect(m.identifier).to.be(identifier);
-    expect(m.signature).to.be("e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f");
+    expect(m.location).toEqual(location);
+    expect(m.identifier).toEqual(identifier);
+    expect(m.signature).toEqual("e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f");
   });
 
   it("create a Macaroon with static helper function using secret Buffer", function () {
 
     var m = MacaroonsBuilder.create(location, Buffer.from(secret,'ascii'), identifier);
 
-    expect(m.location).to.be(location);
-    expect(m.identifier).to.be(identifier);
-    expect(m.signature).to.be("5c748a4dabfd5ff2a0b5ab56120c8021912b591ac09023b4bffbc6e1b54e664f");
+    expect(m.location).toEqual(location);
+    expect(m.identifier).toEqual(identifier);
+    expect(m.signature).toEqual("5c748a4dabfd5ff2a0b5ab56120c8021912b591ac09023b4bffbc6e1b54e664f");
   });
 
   it("create a Macaroon and inspect", function () {
 
     var inspect = MacaroonsBuilder.create(location, secret, identifier).inspect();
 
-    expect(inspect).to.be(
+    expect(inspect).toEqual(
         "location http://mybank/\n" +
         "identifier we used our secret key\n" +
         "signature e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f\n"
@@ -79,7 +74,7 @@ describe('MacaroonBuilderTest', function () {
     var m1 = new MacaroonsBuilder("http://location_ONE", secret, identifier).getMacaroon();
     var m2 = new MacaroonsBuilder("http://location_TWO", secret, identifier).getMacaroon();
 
-    expect(m1.signature).to.be(m2.signature);
+    expect(m1.signature).toEqual(m2.signature);
   });
 
 

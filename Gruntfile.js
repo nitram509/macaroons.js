@@ -55,13 +55,13 @@ module.exports = function (grunt) {
           }
         },
 
-        mochaTest: {
-          options: {
-            reporter: 'tap',
-            quiet: false, // Optionally suppress output to standard out (defaults to false)
-            clearRequireCache: false // Optionally clear the require cache before running tests (defaults to false)
-          },
-          src: ['build/node/test/ts/**/*.js']
+        run: {
+          jest: {
+            cmd: 'npx',
+            args: [
+              'jest'
+            ]
+          }
         }
 
       });
@@ -70,11 +70,11 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-run');
   grunt.loadNpmTasks('grunt-ts');
-  grunt.loadNpmTasks('grunt-mocha-test');
 
   // Default task(s).
-  grunt.registerTask('default', ['typescript:main', 'copy']);
-  grunt.registerTask('test', ['ts:test', 'mochaTest']);
+  grunt.registerTask('default', ['ts:main', 'copy']);
+  grunt.registerTask('test', ['ts:test', 'run:jest']);
 
 };

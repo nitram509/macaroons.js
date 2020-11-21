@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
-var expect = require('expect.js');
-
-import Macaroon = require('../../main/ts/Macaroon');
 import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
 import MacaroonsSerializer = require('../../main/ts/MacaroonsSerializer');
 
@@ -31,8 +27,8 @@ describe('MacaroonSerializerTest', function () {
 
     var m = new MacaroonsBuilder(location, secret, identifier).getMacaroon();
 
-    expect(MacaroonsSerializer.serialize(m)).to.be("MDAxY2xvY2F0aW9uIGh0dHA6Ly9teWJhbmsvCjAwMjZpZGVudGlmaWVyIHdlIHVzZWQgb3VyIHNlY3JldCBrZXkKMDAyZnNpZ25hdHVyZSDj2eApCFJsTAA5rhURQRXZf91ovyujebNCqvD2F9BVLwo");
-    expect(MacaroonsSerializer.serialize(m)).to.be(m.serialize());
+    expect(MacaroonsSerializer.serialize(m)).toEqual("MDAxY2xvY2F0aW9uIGh0dHA6Ly9teWJhbmsvCjAwMjZpZGVudGlmaWVyIHdlIHVzZWQgb3VyIHNlY3JldCBrZXkKMDAyZnNpZ25hdHVyZSDj2eApCFJsTAA5rhURQRXZf91ovyujebNCqvD2F9BVLwo");
+    expect(MacaroonsSerializer.serialize(m)).toEqual(m.serialize());
   });
 
 });

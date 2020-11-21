@@ -14,13 +14,8 @@
  * limitations under the License.
  */
 
-declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
-var expect = require('expect.js');
-
 import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
 import CaveatPacketType = require('../../main/ts/CaveatPacketType');
-import Macaroon = require('../../main/ts/Macaroon');
-
 
 describe('MacaroonBuilderCaveatsTest', function () {
 
@@ -35,10 +30,10 @@ describe('MacaroonBuilderCaveatsTest', function () {
         .add_first_party_caveat("account = 3735928559")
         .getMacaroon();
 
-    expect(m.location).to.be(location);
-    expect(m.identifier).to.be(identifier);
-    expect(m.caveatPackets[0].getValueAsText()).to.be("account = 3735928559");
-    expect(m.signature).to.be("1efe4763f290dbce0c1d08477367e11f4eee456a64933cf662d79772dbb82128");
+    expect(m.location).toEqual(location);
+    expect(m.identifier).toEqual(identifier);
+    expect(m.caveatPackets[0].getValueAsText()).toEqual("account = 3735928559");
+    expect(m.signature).toEqual("1efe4763f290dbce0c1d08477367e11f4eee456a64933cf662d79772dbb82128");
   });
 
 
@@ -53,10 +48,10 @@ describe('MacaroonBuilderCaveatsTest', function () {
     m = MacaroonsBuilder.modify(m)
         .getMacaroon();
 
-    expect(m.location).to.be(location);
-    expect(m.identifier).to.be(identifier);
-    expect(m.caveatPackets[0].getValueAsText()).to.be("account = 3735928559");
-    expect(m.signature).to.be("1efe4763f290dbce0c1d08477367e11f4eee456a64933cf662d79772dbb82128");
+    expect(m.location).toEqual(location);
+    expect(m.identifier).toEqual(identifier);
+    expect(m.caveatPackets[0].getValueAsText()).toEqual("account = 3735928559");
+    expect(m.signature).toEqual("1efe4763f290dbce0c1d08477367e11f4eee456a64933cf662d79772dbb82128");
   });
 
 
@@ -69,15 +64,15 @@ describe('MacaroonBuilderCaveatsTest', function () {
         .add_first_party_caveat("email = alice@example.org")
         .getMacaroon();
 
-    expect(m.location).to.be(location);
-    expect(m.identifier).to.be(identifier);
-    expect(m.caveatPackets[0].type).to.be(CaveatPacketType.cid);
-    expect(m.caveatPackets[0].getValueAsText()).to.be("account = 3735928559");
-    expect(m.caveatPackets[1].type).to.be(CaveatPacketType.cid);
-    expect(m.caveatPackets[1].getValueAsText()).to.be("time < 2015-01-01T00:00");
-    expect(m.caveatPackets[2].type).to.be(CaveatPacketType.cid);
-    expect(m.caveatPackets[2].getValueAsText()).to.be("email = alice@example.org");
-    expect(m.signature).to.be("882e6d59496ed5245edb7ab5b8839ecd63e5d504e54839804f164070d8eed952");
+    expect(m.location).toEqual(location);
+    expect(m.identifier).toEqual(identifier);
+    expect(m.caveatPackets[0].type).toEqual(CaveatPacketType.cid);
+    expect(m.caveatPackets[0].getValueAsText()).toEqual("account = 3735928559");
+    expect(m.caveatPackets[1].type).toEqual(CaveatPacketType.cid);
+    expect(m.caveatPackets[1].getValueAsText()).toEqual("time < 2015-01-01T00:00");
+    expect(m.caveatPackets[2].type).toEqual(CaveatPacketType.cid);
+    expect(m.caveatPackets[2].getValueAsText()).toEqual("email = alice@example.org");
+    expect(m.signature).toEqual("882e6d59496ed5245edb7ab5b8839ecd63e5d504e54839804f164070d8eed952");
   });
 
 
@@ -90,15 +85,15 @@ describe('MacaroonBuilderCaveatsTest', function () {
     mb = mb.add_first_party_caveat("\u00F6");
     var m = mb.getMacaroon();
 
-    expect(m.location).to.be(location);
-    expect(m.identifier).to.be(identifier);
-    expect(m.caveatPackets[0].type).to.be(CaveatPacketType.cid);
-    expect(m.caveatPackets[0].getValueAsText()).to.be("\u00E4");
-    expect(m.caveatPackets[1].type).to.be(CaveatPacketType.cid);
-    expect(m.caveatPackets[1].getValueAsText()).to.be("\u00FC");
-    expect(m.caveatPackets[2].type).to.be(CaveatPacketType.cid);
-    expect(m.caveatPackets[2].getValueAsText()).to.be("\u00F6");
-    expect(m.signature).to.be("e38cce985a627fbfaea3490ca184fb8c59ec2bd14f0adc3b5035156e94daa111");
+    expect(m.location).toEqual(location);
+    expect(m.identifier).toEqual(identifier);
+    expect(m.caveatPackets[0].type).toEqual(CaveatPacketType.cid);
+    expect(m.caveatPackets[0].getValueAsText()).toEqual("\u00E4");
+    expect(m.caveatPackets[1].type).toEqual(CaveatPacketType.cid);
+    expect(m.caveatPackets[1].getValueAsText()).toEqual("\u00FC");
+    expect(m.caveatPackets[2].type).toEqual(CaveatPacketType.cid);
+    expect(m.caveatPackets[2].getValueAsText()).toEqual("\u00F6");
+    expect(m.signature).toEqual("e38cce985a627fbfaea3490ca184fb8c59ec2bd14f0adc3b5035156e94daa111");
   });
 
 
@@ -109,9 +104,9 @@ describe('MacaroonBuilderCaveatsTest', function () {
         .add_first_party_caveat(null)
         .getMacaroon();
 
-    expect(m.location).to.be(location);
-    expect(m.identifier).to.be(identifier);
-    expect(m.signature).to.be("e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f");
+    expect(m.location).toEqual(location);
+    expect(m.identifier).toEqual(identifier);
+    expect(m.signature).toEqual("e3d9e02908526c4c0039ae15114115d97fdd68bf2ba379b342aaf0f617d0552f");
   });
 
 
@@ -124,7 +119,7 @@ describe('MacaroonBuilderCaveatsTest', function () {
 
     var inspect = m.inspect();
 
-    expect(inspect).to.be(
+    expect(inspect).toEqual(
         "location http://mybank/\n" +
         "identifier we used our secret key\n" +
         "cid account = 3735928559\n" +

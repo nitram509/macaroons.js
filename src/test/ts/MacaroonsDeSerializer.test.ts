@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
-var expect = require('expect.js');
-
 import Macaroon = require('../../main/ts/Macaroon');
 import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
-import MacaroonsSerializer = require('../../main/ts/MacaroonsSerializer');
 import MacaroonsDeSerializer = require('../../main/ts/MacaroonsDeSerializer');
 import CaveatPacketType = require('../../main/ts/CaveatPacketType');
 import Base64Tools = require('../../main/ts/Base64Tools');
@@ -37,9 +33,9 @@ describe('MacaroonDeSerializerTest', function () {
 
     var deserialized:Macaroon = MacaroonsDeSerializer.deserialize(serialized);
 
-    expect(m.identifier).to.be(deserialized.identifier);
-    expect(m.location).to.be(deserialized.location);
-    expect(m.signature).to.be(deserialized.signature);
+    expect(m.identifier).toEqual(deserialized.identifier);
+    expect(m.location).toEqual(deserialized.location);
+    expect(m.signature).toEqual(deserialized.signature);
   });
 
   it("a macaroon with caveats can be de-serialized", function () {
@@ -54,28 +50,31 @@ describe('MacaroonDeSerializerTest', function () {
 
     var deserialized:Macaroon = MacaroonsDeSerializer.deserialize(serialized);
 
-    expect(m.identifier).to.be(deserialized.identifier);
-    expect(m.location).to.be(deserialized.location);
-    expect(m.caveatPackets[0].type).to.be(CaveatPacketType.cid);
-    expect(m.caveatPackets[0].getValueAsText()).to.be("test = first_party");
-    expect(m.caveatPackets[1].type).to.be(CaveatPacketType.cid);
-    expect(m.caveatPackets[1].getValueAsText()).to.be("test = third_party");
-    expect(m.caveatPackets[2].type).to.be(CaveatPacketType.vid);
-    expect(m.caveatPackets[2].getRawValue().toString('base64')).to.be(vidAsBase64.toString('base64'));
-    expect(m.caveatPackets[3].type).to.be(CaveatPacketType.cl);
-    expect(m.caveatPackets[3].getValueAsText()).to.be('third_party_location');
-    expect(m.signature).to.be(deserialized.signature);
+    expect(m.identifier).toEqual(deserialized.identifier);
+    expect(m.location).toEqual(deserialized.location);
+    expect(m.caveatPackets[0].type).toEqual(CaveatPacketType.cid);
+    expect(m.caveatPackets[0].getValueAsText()).toEqual("test = first_party");
+    expect(m.caveatPackets[1].type).toEqual(CaveatPacketType.cid);
+    expect(m.caveatPackets[1].getValueAsText()).toEqual("test = third_party");
+    expect(m.caveatPackets[2].type).toEqual(CaveatPacketType.vid);
+    expect(m.caveatPackets[2].getRawValue().toString('base64')).toEqual(vidAsBase64.toString('base64'));
+    expect(m.caveatPackets[3].type).toEqual(CaveatPacketType.cl);
+    expect(m.caveatPackets[3].getValueAsText()).toEqual('third_party_location');
+    expect(m.signature).toEqual(deserialized.signature);
   });
 
   it("to short base64 throws Error", function () {
     // packet is: "123"
-    expect(MacaroonsDeSerializer.deserialize).withArgs("MTIzDQo=").to.throwError(/.*Not enough bytes for signature found.*/);
+    expect(() => {
+      MacaroonsDeSerializer.deserialize("MTIzDQo=")
+    }).toThrowError(/.*Not enough bytes for signature found.*/);
   });
 
   it("invalid packet length throws Error", function () {
     // packet is: "fffflocation http://mybank12345678901234567890.com"
-    expect(MacaroonsDeSerializer.deserialize).withArgs("ZmZmZmxvY2F0aW9uIGh0dHA6Ly9teWJhbmsxMjM0NTY3ODkwMTIzNDU2Nzg5MC5jb20=")
-        .to.throwError(/.*Not enough data bytes available.*/);
+    expect(() => {
+      MacaroonsDeSerializer.deserialize("ZmZmZmxvY2F0aW9uIGh0dHA6Ly9teWJhbmsxMjM0NTY3ODkwMTIzNDU2Nzg5MC5jb20=")
+    }).toThrowError(/.*Not enough data bytes available.*/);
   });
 
 });

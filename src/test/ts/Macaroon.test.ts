@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
-var expect = require('expect.js');
+import Macaroon = require('../../main/ts/Macaroon');
 
-import verifier = require('../../../main/ts/verifier/TimestampCaveatVerifier');
+describe('MacaroonTest', function () {
 
-describe('TimestampCaveatVerifierTest', function () {
+  it("macaroons can be constructed via given attributes", function () {
 
-  it("is valid using full qualified timestamp with timezone", function () {
-    expect(verifier('time < 2020-12-31T18:23:45Z')).to.be(true);
-  });
+    var m = new Macaroon("location", "identifier", Buffer.from("cafebabe", 'hex'));
 
-  
-  it("verifier is robust", function () {
-    expect(verifier('time < foobar')).to.be(false);
+    expect(m.identifier).toEqual('identifier');
+    expect(m.location).toEqual('location');
+    expect(m.signature).toEqual('cafebabe');
   });
 
 });
