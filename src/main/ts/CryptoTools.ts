@@ -56,9 +56,10 @@ class CryptoTools {
 
     var enc_nonce:Buffer = Buffer.alloc(MacaroonsConstants.MACAROON_SECRET_NONCE_BYTES);
     enc_nonce.fill(0);
-    /* XXX get some random bytes instead */
     var enc_plaintext:Buffer = Buffer.alloc(MacaroonsConstants.MACAROON_HASH_BYTES);
-    enc_plaintext.fill(0);
+    crypto.randomFill(enc_plaintext, (err: Error, buf: Buffer) => {
+      if (err) throw err;
+    });
     /* now encrypt the key to give us vid */
     derived_key.copy(enc_plaintext, 0, 0, MacaroonsConstants.MACAROON_HASH_BYTES);
 
