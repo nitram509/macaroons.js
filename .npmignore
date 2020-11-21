@@ -7,4 +7,6 @@ tsd.json
 build
 npm-debug.log
 src/test
-
+.tscache
+coverage
+jest.config.ts
