@@ -19,7 +19,6 @@ var expect = require('expect.js');
 
 import MacaroonsBuilder = require('../../main/ts/MacaroonsBuilder');
 import CaveatPacketType = require('../../main/ts/CaveatPacketType');
-import Macaroon = require('../../main/ts/Macaroon');
 import Base64Tools = require('../../main/ts/Base64Tools');
 
 

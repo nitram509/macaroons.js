@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-declare var require; // TODO: bad hack to make TSC compile, possible reason https://github.com/Microsoft/TypeScript/issues/954
-var crypto = require('crypto');
-var nacl:any = require('ecma-nacl');
-var toBuffer:any = require('typedarray-to-buffer');
-
+import * as crypto from 'crypto';
+import * as nacl from 'ecma-nacl';
+import toBuffer from 'typedarray-to-buffer';
 import MacaroonsConstants = require('./MacaroonsConstants');
 import ThirdPartyPacket = require('./ThirdPartyPacket');
 

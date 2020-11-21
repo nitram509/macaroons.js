@@ -15,7 +15,8 @@ module.exports = function (grunt) {
               target: 'es5',
               rootDir : 'src/main/ts/',
               sourceMap: false,
-              declaration: true
+              declaration: true,
+              esModuleInterop: true
             }
           },
           test: {
@@ -26,7 +27,8 @@ module.exports = function (grunt) {
               target: 'es5',
               rootDir : 'src',
               sourceMap: true,
-              declaration: true
+              declaration: true,
+              esModuleInterop: true
             }
           }
         },
