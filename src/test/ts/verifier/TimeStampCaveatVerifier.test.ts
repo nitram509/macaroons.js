@@ -19,7 +19,7 @@ import verifier = require('../../../main/ts/verifier/TimestampCaveatVerifier');
 describe('TimestampCaveatVerifierTest', function () {
 
   it("is valid using full qualified timestamp with timezone", function () {
-    expect(verifier('time < 2020-12-31T18:23:45Z')).toEqual(true);
+    expect(verifier('time < 2099-12-31T18:23:45Z')).toEqual(true);
   });
 
   
