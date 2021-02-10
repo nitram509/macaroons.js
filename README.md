@@ -335,7 +335,7 @@ for expiration.
 
 ````Javascript
 var macaroon = new MacaroonsBuilder(location, secretKey, identifier)
-    .add_first_party_caveat("time < 2015-01-01T00:00")
+    .add_first_party_caveat("time < 2055-01-01T00:00")
     .getMacaroon();
 
 var TimestampCaveatVerifier = require('macaroons.js').verifier.TimestampCaveatVerifier;

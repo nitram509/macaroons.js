@@ -109,7 +109,7 @@ describe('MacaroonsVerifierTest', function () {
 
   it("verification general", function () {
     var m = new MacaroonsBuilder(location, secret, identifier)
-        .add_first_party_caveat("time < 2020-12-31T18:23:45Z")
+        .add_first_party_caveat("time < 2099-12-31T18:23:45Z")
         .getMacaroon();
 
     var verifier = new MacaroonsVerifier(m);
