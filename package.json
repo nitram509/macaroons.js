@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "ecma-nacl": "^2.0.1",
-    "typedarray-to-buffer": "^3.0.1"
+    "typedarray-to-buffer": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.9",
