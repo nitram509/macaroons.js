@@ -25,7 +25,7 @@ where you can build and verify macaroons online.
 Build Status
 --------------------
 
-[![Build Status](https://travis-ci.org/nitram509/jmacaroons.svg?branch=master)](https://travis-ci.org/nitram509/macaroons.js)
+[![Build Status](https://app.travis-ci.com/nitram509/macaroons.js.svg?branch=master)](https://app.travis-ci.com/nitram509/macaroons.js)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 [![NPM](https://nodei.co/npm/macaroons.js.png)](https://nodei.co/npm/macaroons.js/)
