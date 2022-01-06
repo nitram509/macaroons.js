@@ -53,7 +53,7 @@
     "grunt-run": "^0.8.1",
     "grunt-ts": "^6.0.0-beta.22",
     "typescript": "^4.1.2",
-    "ts-node": "^9.0.0",
+    "ts-node": "^10.4.0",
     "jest-coverage-badges": "^1.1.2"
   },
   "directories": {
