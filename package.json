@@ -44,7 +44,7 @@
   "devDependencies": {
     "@types/node": "^17.0.8",
     "@types/jest": "^27.4.0",
-    "jest": "^27.4.7",
+    "jest": "^28.0.2",
     "grunt": "~1.4.1",
     "grunt-cli": "~1.4.2",
     "grunt-contrib-clean": "^2.0.0",
