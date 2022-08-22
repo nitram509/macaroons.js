@@ -42,7 +42,7 @@
     "typedarray-to-buffer": "^4.0.0"
   },
   "devDependencies": {
-    "@types/node": "^17.0.8",
+    "@types/node": "^18.7.9",
     "@types/jest": "^27.4.0",
     "jest": "^27.4.7",
     "grunt": "~1.4.1",
