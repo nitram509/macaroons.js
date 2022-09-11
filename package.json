@@ -7,6 +7,7 @@
   "scripts": {
     "build": "npx grunt",
     "test": "npx grunt test",
+    "coverage": "npx grunt test run:badges",
     "before_deploy": "npx grunt package"
   },
   "repository": {
