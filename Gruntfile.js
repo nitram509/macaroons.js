@@ -82,6 +82,6 @@ module.exports = function (grunt) {
   // Default task(s).
   grunt.registerTask('default', ['ts:main', 'copy']);
   grunt.registerTask('test', ['ts:test', 'run:jest']);
-  grunt.registerTask('package', ['clean', 'ts:main', 'ts:test', 'run:jest', 'run:badges', 'copy']);
+  grunt.registerTask('package', ['clean', 'ts:main', 'ts:test', 'run:jest', 'copy']);
 
 };
