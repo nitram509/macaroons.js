@@ -414,6 +414,7 @@ But if I use Node.js 4.4+, the test run fine again :-/
 Right now I'm too lazy to find the root cause and keep v.0.12.4 compatibility for Macaroons.js.
 The simplest "solution" is to use an up-to-date Node.js runtime version ;-)
 
+**Since Sep.2022, macaroon.js is using Github actions and TravisCI history might no more be available.
 
 ## Stargazers over time
 
