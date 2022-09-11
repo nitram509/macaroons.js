@@ -38,7 +38,7 @@
     "npm": ">=1.4"
   },
   "dependencies": {
-    "ecma-nacl": "^2.0.1",
+    "ecma-nacl": "^2.5.1",
     "typedarray-to-buffer": "^4.0.0"
   },
   "devDependencies": {
