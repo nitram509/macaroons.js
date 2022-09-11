@@ -17,6 +17,11 @@ The primary goals are
 There is a [playground](http://www.macaroons.io/) (testing environment) available,
 where you can build and verify macaroons online. 
 
+## Project status: discontinued
+
+This library is no longer actively developed/maintained, but security updates will be made from time to time.
+Also, pull requests will be reviewed and if meaningful potentially merged.
+
 ##### License
 
 [![License: Apache 2.0](https://img.shields.io/:license-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
@@ -179,7 +184,7 @@ Caveats like these are called "exact caveats" because there is exactly one way
 to satisfy them.  Either the account number is 3735928559, or it isn't.  At
 verification time, the verifier will check each caveat in the macaroon against
 the list of satisfied caveats provided to "satisfyExact()".  When it finds a
-match, it knows that the caveat holds and it can move onto the next caveat in
+match, it knows that the caveat holds, and it can move onto the next caveat in
 the macaroon.
 ````Javascript
 verifier.satisfyExact("account = 3735928559");
@@ -223,7 +228,7 @@ Third Party Caveats
 Like first-party caveats, third-party caveats restrict the context in which a
 macaroon is authorized, but with a different form of restriction.  Where a
 first-party caveat is checked directly within the verifier, a third-party caveat
-is checked by the third-party, who provides a discharge macaroon to prove that
+is checked by the third party, who provides a discharge macaroon to prove that
 the original third-party caveat is true.  The discharge macaroon is recursively
 inspected by the verifier; if it verifies successfully, the discharge macaroon
 serves as a proof that the original third-party caveat is satisfied.  Of course,
@@ -402,10 +407,10 @@ all tests still run fine.
 This leads me to the conclusion that something inside my ```node_modules``` folder
 is responsible for successful test results. To verify this thesis, I deleted the projects
 ```node_modules``` folder and did ```npm install``` again.
-After that, my my local Node.js v0.12.4 also fails to run the tests (same as on Travis-CI).
+After that, my local Node.js v0.12.4 also fails to run the tests (same as on Travis-CI).
 But if I use Node.js 4.4+, the test run fine again :-/
 
-*Conclusion*: Some of the downstream dependencies infer with the installed Node.js version.
+*Conclusion*: Some downstream dependencies infer with the installed Node.js version.
 Right now I'm too lazy to find the root cause and keep v.0.12.4 compatibility for Macaroons.js.
 The simplest "solution" is to use an up-to-date Node.js runtime version ;-)
 

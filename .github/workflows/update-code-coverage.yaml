@@ -1,0 +1,27 @@
+name: "update code coverage"
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "checkout"
+        uses: actions/checkout@v3
+      - name: "Use Node.js ${{ matrix.node-version }}"
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+      - name: "install"
+        run: npm clean-install
+      - name: "npm test"
+        run: npm test
+      - name: "update coverage reports"
+        run: |
+          git config --global user.name 'github-action-update-code-coverage'
+          git config --global user.email 'nitram509@users.noreply.github.com'
+          git add ./coverage
+          git commit -m "update code coverage report"
+          git push
