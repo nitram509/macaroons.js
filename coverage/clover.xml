@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1662906662595" clover="3.2.0">
+  <project timestamp="1662906662595" name="All files">
+    <metrics statements="13" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0" elements="13" coveredelements="13" complexity="0" loc="13" ncloc="13" packages="2" files="13" classes="13"/>
+    <package name="ts">
+      <metrics statements="12" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="Base64Tools.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/Base64Tools.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="BufferTools.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/BufferTools.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="CaveatPacket.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/CaveatPacket.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="CaveatPacketType.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/CaveatPacketType.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="CryptoTools.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/CryptoTools.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="Macaroon.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/Macaroon.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="MacaroonsBuilder.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/MacaroonsBuilder.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="MacaroonsConstants.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/MacaroonsConstants.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="MacaroonsDeSerializer.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/MacaroonsDeSerializer.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="MacaroonsSerializer.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/MacaroonsSerializer.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="MacaroonsVerifier.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/MacaroonsVerifier.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+      <file name="ThirdPartyPacket.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/ThirdPartyPacket.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="ts.verifier">
+      <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="TimestampCaveatVerifier.ts" path="/home/runner/work/macaroons.js/macaroons.js/src/main/ts/verifier/TimestampCaveatVerifier.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
