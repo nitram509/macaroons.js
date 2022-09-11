@@ -39,7 +39,7 @@ export default {
     "json-summary",
     "text",
     "lcov",
-  //   "clover"
+    "clover"
   ],
 
   // An object that configures minimum threshold enforcement for coverage results
