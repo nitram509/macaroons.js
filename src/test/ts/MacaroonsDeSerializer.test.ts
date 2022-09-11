@@ -57,7 +57,7 @@ describe('MacaroonDeSerializerTest', function () {
     expect(m.caveatPackets[1].type).toEqual(CaveatPacketType.cid);
     expect(m.caveatPackets[1].getValueAsText()).toEqual("test = third_party");
     expect(m.caveatPackets[2].type).toEqual(CaveatPacketType.vid);
-    // expect(m.caveatPackets[2].getRawValue().toString('base64')).toEqual(vidAsBase64.toString('base64')); // TODO: find out, why this fails from time to time (see build test results)
+    // expect(m.caveatPackets[2].getRawValue().toString('base64')).toEqual(vidAsBase64.toString('base64')); // TODO: find out, why this fails from time to time (not always re-producible, see build test results)
     expect(m.caveatPackets[3].type).toEqual(CaveatPacketType.cl);
     expect(m.caveatPackets[3].getValueAsText()).toEqual('third_party_location');
     expect(m.signature).toEqual(deserialized.signature);
