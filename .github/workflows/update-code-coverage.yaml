@@ -17,7 +17,7 @@ jobs:
       - name: "install"
         run: npm clean-install
       - name: "npm test"
-        run: npm coverage
+        run: npm run coverage
       - name: "update coverage reports"
         run: |
           git config --global user.name 'github-action-update-code-coverage'
